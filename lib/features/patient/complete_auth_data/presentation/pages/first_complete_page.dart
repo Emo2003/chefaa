@@ -1,16 +1,17 @@
-import 'package:chefaa/core/widgets/custom_btn.dart';
-import 'package:chefaa/features/patient/complete_auth_data/presentation/pages/second_complete_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
+import 'package:chefaa/core/widgets/custom_btn.dart';
 import 'package:chefaa/core/widgets/custom_calender.dart';
 import 'package:chefaa/core/widgets/custom_dropdown_btn.dart';
 import 'package:chefaa/core/widgets/custom_text_field.dart';
 import 'package:chefaa/features/patient/complete_auth_data/presentation/manager/complete_cubit.dart';
 import 'package:chefaa/features/patient/complete_auth_data/presentation/widgets/complete_data_container.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/routes/app_routes_names.dart';
 
 class FirstCompletePage extends StatefulWidget {
   const FirstCompletePage({super.key});
@@ -218,15 +219,9 @@ class _FirstCompletePageState extends State<FirstCompletePage> {
                         ).showSnackBar(SnackBar(content: Text(error)));
                         return;
                       }
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BlocProvider.value(
-                            value: cubit,
-                            child: const SecondCompletePage(),
-                          ),
-                        ),
+                      context.push(
+                        AppRoutesNames.patientSignUpCompleteChronicDiseases,
+                        extra: cubit,
                       );
                     }
                   },

@@ -1,25 +1,24 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chefaa/core/config/get_config.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
+import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/services/storage_service.dart';
 import 'package:chefaa/features/patient/profile/presentation/pages/profile_page.dart';
 import 'package:chefaa/features/pharmacy/profile/data/models/pharmacy_profile_response.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/manager/pharmacy_profile_cubit.dart';
-import 'package:chefaa/features/pharmacy/profile/presentation/pages/edit_pharmacy_profile_page.dart';
-import 'package:chefaa/features/pharmacy/settings/presentation/pages/pharmacy_settings_page.dart';
-
-import 'package:chefaa/features/pharmacy/profile/presentation/widgets/profile_header.dart';
-import 'package:chefaa/features/pharmacy/profile/presentation/widgets/profile_quick_info_cards.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/widgets/about_pharmacy_section.dart';
-import 'package:chefaa/features/pharmacy/profile/presentation/widgets/operating_settings_section.dart';
-import 'package:chefaa/features/pharmacy/profile/presentation/widgets/working_hours_section.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/widgets/addresses_section.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/widgets/delivery_section.dart';
-import 'package:chefaa/features/pharmacy/profile/presentation/widgets/verification_license_section.dart';
+import 'package:chefaa/features/pharmacy/profile/presentation/widgets/operating_settings_section.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/widgets/payment_methods_section.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/widgets/profile_action_buttons.dart';
+import 'package:chefaa/features/pharmacy/profile/presentation/widgets/profile_header.dart';
+import 'package:chefaa/features/pharmacy/profile/presentation/widgets/profile_quick_info_cards.dart';
+import 'package:chefaa/features/pharmacy/profile/presentation/widgets/verification_license_section.dart';
+import 'package:chefaa/features/pharmacy/profile/presentation/widgets/working_hours_section.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class PharmacyProfilePage extends StatefulWidget {
   const PharmacyProfilePage({super.key});
@@ -82,8 +81,11 @@ class _PharmacyProfilePageState extends State<PharmacyProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline_rounded,
-                color: Colors.red.shade300, size: 60.sp),
+            Icon(
+              Icons.error_outline_rounded,
+              color: Colors.red.shade300,
+              size: 60.sp,
+            ),
             SizedBox(height: 16.h),
             Text(
               error,
@@ -121,8 +123,9 @@ class _PharmacyProfilePageState extends State<PharmacyProfilePage> {
         ? profileData!.addresses!.first
         : null;
     final String location =
-        (firstAddress is Map ? firstAddress["addressText"] : null)?.toString() ??
-            'Not specified';
+        (firstAddress is Map ? firstAddress["addressText"] : null)
+            ?.toString() ??
+        'Not specified';
 
     final bool isOpen = profileData?.openNow ?? false;
     final bool isDeliveryAvailable = profileData?.deliveryAvailable ?? false;
@@ -142,27 +145,18 @@ class _PharmacyProfilePageState extends State<PharmacyProfilePage> {
             openNow: isOpen,
             deliveryAvailable: isDeliveryAvailable,
             onEditTap: profileData != null
-                ? () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider.value(
-                          value: _cubit,
-                          child: EditPharmacyProfilePage(
-                              profileData: profileData),
-                        ),
-                      ),
-                    ).then((updated) {
-                      if (updated == true) {
-                        _cubit.getPharmacyProfile();
-                      }
-                    });
+                ? () async {
+                    final updated = await context.push<bool>(
+                      AppRoutesNames.editPharmacyProfile,
+                      extra: {'cubit': _cubit, 'profileData': profileData},
+                    );
+                    if (updated == true) {
+                      _cubit.getPharmacyProfile();
+                    }
                   }
                 : null,
           ),
           SizedBox(height: 24.h),
-
-          // Quick Info Cards
           if (profileData?.stats != null) ...[
             ProfileQuickInfoCards(
               rating: profileData!.stats!.rating,
@@ -172,76 +166,44 @@ class _PharmacyProfilePageState extends State<PharmacyProfilePage> {
             ),
             SizedBox(height: 16.h),
           ],
-
-          // About Section
           if (about != null && about.isNotEmpty) ...[
             AboutPharmacySection(about: about),
           ],
-
-          // Addresses
           if (addresses != null && addresses.isNotEmpty) ...[
             AddressesSection(addresses: addresses),
           ],
-
-          // Working Hours
           if (workingHours != null && workingHours.isNotEmpty) ...[
             WorkingHoursSection(workingHours: workingHours),
           ],
-
-          // Settings & Policies
           OperatingSettingsSection(profileData: profileData),
-
-          // Delivery Section
           DeliverySection(profileData: profileData),
-
-          // Payment Methods
           PaymentMethodsSection(profileData: profileData),
-
-          // Verification License
           VerificationLicenseSection(profileData: profileData),
-
           SizedBox(height: 24.h),
-
-          // Action Buttons
           ProfileActionButton(
             icon: Icons.person_rounded,
             title: "Edit Profile",
             baseColor: Colors.blue.shade600,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                    value: _cubit,
-                    child: EditPharmacyProfilePage(profileData: profileData),
-                  ),
-                ),
-              ).then((updated) {
-                if (updated == true) {
-                  _cubit.getPharmacyProfile();
-                }
-              });
+            onTap: () async {
+              final updated = await context.push<bool>(
+                AppRoutesNames.editPharmacyProfile,
+                extra: {'cubit': _cubit, 'profileData': profileData},
+              );
+              if (updated == true) {
+                _cubit.getPharmacyProfile();
+              }
             },
           ),
           ProfileActionButton(
             icon: Icons.settings_rounded,
             title: "Pharmacy Settings",
             baseColor: Colors.indigo.shade600,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PharmacySettingsPage(),
-                ),
-              ).then((_) {
-                _cubit.getPharmacyProfile();
-              });
+            onTap: () async {
+              await context.push(AppRoutesNames.pharmacySettings);
+              _cubit.getPharmacyProfile();
             },
           ),
-
           SizedBox(height: 32.h),
-
-          // Logout Button
           const Center(child: LogOutBtn()),
           SizedBox(height: 60.h),
         ],

@@ -2,11 +2,11 @@ import 'package:chefaa/core/resources/assets_manager.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
+import 'package:chefaa/features/patient/search/presentation/manager/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'package:chefaa/features/patient/search/presentation/manager/search_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class FilterBar extends StatelessWidget {
   const FilterBar({super.key});
@@ -119,22 +119,24 @@ class FilterBar extends StatelessWidget {
         );
         break;
       case FilterType.specialization:
-        final result = await Navigator.pushNamed(
-          context,
+        final result = await context.push<String>(
           AppRoutesNames.specialityPage,
         );
 
-        if (result is String && result.isNotEmpty) {
+        if (!context.mounted) return;
+
+        if (result != null && result.isNotEmpty) {
           await cubit.updateAndSearch(specialization: result);
         }
         break;
       case FilterType.location:
-        final result = await Navigator.pushNamed(
-          context,
+        final result = await context.push<String>(
           AppRoutesNames.locationFilter,
         );
 
-        if (result is String && result.isNotEmpty) {
+        if (!context.mounted) return;
+
+        if (result != null && result.isNotEmpty) {
           await cubit.updateAndSearch(location: result);
         }
         break;
@@ -184,7 +186,7 @@ class FilterBar extends StatelessWidget {
       }).toList(),
     );
 
-    if (selected == null) return;
+    if (selected == null || !context.mounted) return;
 
     if (selected == 'Any') {
       await cubit.updateAndSearch(gender: '');

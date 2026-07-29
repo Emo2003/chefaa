@@ -1,20 +1,20 @@
+import 'package:chefaa/core/config/get_config.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
+import 'package:chefaa/core/widgets/inside_app_bar.dart';
 import 'package:chefaa/features/patient/checkout_order/presentation/widgets/checkout_summary_card.dart';
+import 'package:chefaa/features/patient/checkout_order/presentation/widgets/continue_btn.dart';
+import 'package:chefaa/features/patient/checkout_order/presentation/widgets/custom_card.dart';
 import 'package:chefaa/features/patient/checkout_order/presentation/widgets/delivery_card.dart';
 import 'package:chefaa/features/patient/checkout_order/presentation/widgets/delivery_form.dart';
 import 'package:chefaa/features/patient/checkout_order/presentation/widgets/payment_card.dart';
+import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/manager/pharmacy_checkout_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:chefaa/core/config/get_config.dart';
-import 'package:chefaa/core/widgets/inside_app_bar.dart';
-import 'package:chefaa/features/patient/order/presentation/pages/track_order_page.dart';
-import 'package:chefaa/features/patient/payment/presentation/pages/payment_page.dart';
-import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/manager/pharmacy_checkout_cubit.dart';
-import 'package:chefaa/features/patient/checkout_order/presentation/widgets/continue_btn.dart';
-import 'package:chefaa/features/patient/checkout_order/presentation/widgets/custom_card.dart';
+import '../../../../../core/routes/app_routes_names.dart';
 
 class CheckoutPage extends StatefulWidget {
   final String? pharmacyId;
@@ -68,7 +68,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,31 +83,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
         child: BlocConsumer<PharmacyCheckoutCubit, PharmacyCheckoutState>(
           listener: (context, state) {
             if (state is PharmacyCheckoutSuccess) {
+              final orderId = state.response.data?.orderId ?? "";
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.response.message),
                   backgroundColor: ColorManager.primary,
                 ),
               );
-              if (paymentMethod == "online") {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => PaymentPage(
-                      orderId: state.response.data?.orderId ?? "",
-                      subtotal: subtotal,
-                      deliveryFee: delivery,
-                    ),
-                  ),
+              if (paymentMethod == 'online') {
+                context.pushReplacement(
+                  AppRoutesNames.paymentPage.replaceFirst(':orderId', orderId),
+                  extra: {
+                    'orderId': orderId,
+                    'subtotal': widget.subtotal,
+                    'deliveryFee': widget.deliveryFee,
+                  },
                 );
               } else {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => TrackOrderPage(
-                      orderId: state.response.data?.orderId ?? "",
-                    ),
-                  ),
+                context.pushReplacement(
+                  AppRoutesNames.trackOrderPage.replaceFirst(':orderId', orderId),
                 );
               }
             } else if (state is PharmacyCheckoutFailure) {
@@ -128,7 +121,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
               child: Column(
                 children: [
                   20.verticalSpace,
-                  const CustomCard(title: "Delivery Method", child: DeliveryCard()),
+                  const CustomCard(
+                    title: "Delivery Method",
+                    child: DeliveryCard(),
+                  ),
                   15.verticalSpace,
                   CustomCard(
                     title: "Delivery Information",
@@ -182,7 +178,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       if (pharmacyId == null || pharmacyId!.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Pharmacy info is missing. Please go back and try again."),
+                            content: Text(
+                              "Pharmacy info is missing. Please go back and try again.",
+                            ),
                             backgroundColor: ColorManager.error,
                           ),
                         );
@@ -192,12 +190,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       final checkoutData = {
                         "pharmacyId": pharmacyId,
                         "orderType": "Delivery",
-                        "paymentMethod": paymentMethod == "cod" ? "Cash" : "Visa",
-                        "items": items.map((item) => {
-                          "medicineId": item["medicineId"] ?? "",
-                          "medicineName": item["name"] ?? item["medicineName"] ?? "",
-                          "quantity": item["quantity"] ?? 1,
-                        }).toList(),
+                        "paymentMethod": paymentMethod == "cod"
+                            ? "Cash"
+                            : "Visa",
+                        "items": items
+                            .map(
+                              (item) => {
+                                "medicineId": item["medicineId"] ?? "",
+                                "medicineName":
+                                    item["name"] ?? item["medicineName"] ?? "",
+                                "quantity": item["quantity"] ?? 1,
+                              },
+                            )
+                            .toList(),
                         "deliveryAddressDetails": {
                           "fullName": nameController.text.trim(),
                           "phoneNumber": phoneController.text.trim(),
@@ -205,12 +210,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           "streetAddress": streetController.text.trim(),
                           "location": {
                             "type": "Point",
-                            "coordinates": [31.2357, 30.0444]
-                          }
-                        }
+                            "coordinates": [31.2357, 30.0444],
+                          },
+                        },
                       };
 
-                      context.read<PharmacyCheckoutCubit>().checkoutOrder(checkoutData);
+                      context.read<PharmacyCheckoutCubit>().checkoutOrder(
+                        checkoutData,
+                      );
                     },
                   ),
                 ],

@@ -8,6 +8,7 @@ import 'package:chefaa/core/widgets/custom_text_field.dart';
 import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/features/pharmacy/profile/data/models/pharmacy_profile_response.dart';
 import 'package:chefaa/features/pharmacy/profile/presentation/manager/pharmacy_profile_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class EditPharmacyProfilePage extends StatefulWidget {
   final PharmacyProfileData? profileData;
@@ -319,7 +320,7 @@ class _EditPharmacyProfilePageState extends State<EditPharmacyProfilePage> {
                   backgroundColor: ColorManager.lightGreen,
                 ),
               );
-              Navigator.pop(context, true);
+              context.pop(true);
             } else if (state is PharmacyProfileUpdateError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

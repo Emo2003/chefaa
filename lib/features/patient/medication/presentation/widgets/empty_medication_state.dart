@@ -1,11 +1,12 @@
-import 'package:chefaa/core/resources/values_manager.dart';
-import 'package:chefaa/features/doctor/layout/home/presentation/widgets/custom_outline_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
+import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../doctor/home/presentation/widgets/custom_outline_button.dart';
 
 class EmptyMedicationState extends StatelessWidget {
   const EmptyMedicationState({super.key});
@@ -14,7 +15,7 @@ class EmptyMedicationState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical:AppPadding.p18),
+      padding: const EdgeInsets.symmetric(vertical: AppPadding.p18),
       decoration: BoxDecoration(
         color: ColorManager.lightGray,
         borderRadius: BorderRadius.circular(16.r),
@@ -45,7 +46,7 @@ class EmptyMedicationState extends StatelessWidget {
           CustomOutlineButton(
             text: "Add Medication",
             onPressed: () {
-              Navigator.pushNamed(context, AppRoutesNames.medicationPage);
+              context.push(AppRoutesNames.medicationPage);
             },
           ),
         ],

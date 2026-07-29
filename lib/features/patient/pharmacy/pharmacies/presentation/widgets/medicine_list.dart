@@ -1,15 +1,21 @@
+import 'package:chefaa/features/patient/cart/presentation/manager/cart_cubit.dart';
+import 'package:chefaa/features/patient/pharmacy/medicines/data/models/medicine_model.dart';
+import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/medicine_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:chefaa/features/patient/pharmacy/medicines/data/models/medicine_model.dart';
-import 'package:chefaa/features/patient/pharmacy/medicines/presentation/pages/medicine_details_page.dart';
-import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/medicine_card.dart';
-import 'package:chefaa/features/patient/cart/presentation/manager/cart_cubit.dart';
+import '../../../../../../core/routes/app_routes_names.dart';
 
 class MedicineList extends StatelessWidget {
   final List<MedicineModel> medicines;
   final String pharmacyId;
-  const MedicineList({super.key, required this.medicines, required this.pharmacyId});
+
+  const MedicineList({
+    super.key,
+    required this.medicines,
+    required this.pharmacyId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +28,15 @@ class MedicineList extends StatelessWidget {
         final med = medicines[index];
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => MedicineDetailsPage(
-                  name: med.name,
-                  activeIngredient: med.category,
-                  price: '${med.price} EGP',
-                  medicineId: med.id,
-                  pharmacyId: pharmacyId,
-                ),
-              ),
+            context.push(
+              AppRoutesNames.medicineDetails,
+              extra: {
+                'name': med.name,
+                'activeIngredient': med.category,
+                'price': '${med.price} EGP',
+                'medicineId': med.id,
+                'pharmacyId': pharmacyId,
+              },
             );
           },
           child: MedicineCard(

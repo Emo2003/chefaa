@@ -1,6 +1,7 @@
 import 'package:chefaa/core/resources/constants_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RoleNavigationService {
   final BuildContext context;
@@ -9,22 +10,19 @@ class RoleNavigationService {
 
   void toLayout(String? role) {
     final route = _getLayoutRoute(role);
-    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+    context.go(route);
   }
 
   void toSignUp(String? role) {
     final navigationData = _getSignUpRoute(role);
     if (navigationData.route != null) {
-      Navigator.pushReplacementNamed(
-        context,
-        navigationData.route!,
-        arguments: navigationData.arguments,
+      context.pushReplacement(navigationData.route!, extra: navigationData.arguments,
       );
     }
   }
 
   void toLogin(String? role) {
-    Navigator.pushNamed(context, AppRoutesNames.login, arguments: role);
+    context.push(AppRoutesNames.login, extra: role);
   }
 
   String _getLayoutRoute(String? role) {

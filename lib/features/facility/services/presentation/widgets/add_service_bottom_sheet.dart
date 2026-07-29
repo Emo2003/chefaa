@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class AddServiceBottomSheet extends StatefulWidget {
   final bool isLab;
@@ -213,7 +214,9 @@ class _AddServiceBottomSheetState extends State<AddServiceBottomSheet> {
                           backgroundColor: Colors.green,
                         ),
                       );
-                      Navigator.pop(context);
+                      if (context.mounted) {
+                        context.pop();
+                      }
                     } else if (state is AddServiceFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -299,4 +302,3 @@ class _AddServiceBottomSheetState extends State<AddServiceBottomSheet> {
     );
   }
 }
-

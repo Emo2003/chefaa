@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class FacilityQuickActionsWidget extends StatelessWidget {
   final VoidCallback? onServicesPressed;
@@ -30,17 +31,14 @@ class FacilityQuickActionsWidget extends StatelessWidget {
               icon: Icons.note_add_outlined,
               label: "Upload result",
               onTap: () {
-                Navigator.pushNamed(context, AppRoutesNames.facilityResults);
+                context.push(AppRoutesNames.facilityResults);
               },
             ),
             _QuickActionItemWidget(
               icon: Icons.add_circle_outline_rounded,
               label: "New Request",
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutesNames.createPatientRequest,
-                );
+                context.push(AppRoutesNames.createPatientRequest);
               },
             ),
           ],

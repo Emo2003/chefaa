@@ -12,6 +12,7 @@ import 'package:chefaa/features/facility/services/presentation/manager/services_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CreatePatientRequestPage extends StatelessWidget {
   const CreatePatientRequestPage({super.key});
@@ -111,7 +112,7 @@ class _CreatePatientRequestPageBodyState
               behavior: SnackBarBehavior.floating,
             ),
           );
-          Navigator.pop(context);
+          context.pop();
         } else if (state is CreatePatientRequestFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -139,7 +140,7 @@ class _CreatePatientRequestPageBodyState
               color: ColorManager.primary,
               size: FontSize.s24.sp,
             ),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
           ),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

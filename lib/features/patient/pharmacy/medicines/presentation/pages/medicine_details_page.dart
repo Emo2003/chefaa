@@ -1,10 +1,6 @@
 import 'package:chefaa/core/config/get_config.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
-import 'package:chefaa/features/patient/cart/presentation/pages/cart_page.dart';
 import 'package:chefaa/features/patient/cart/presentation/manager/cart_cubit.dart';
 import 'package:chefaa/features/patient/pharmacy/medicines/presentation/manager/medicine_details_cubit.dart';
 import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/active_monograph_content.dart';
@@ -16,6 +12,12 @@ import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/
 import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/monograph_filter_row.dart';
 import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/section_header.dart';
 import 'package:chefaa/features/patient/pharmacy/medicines/presentation/widgets/usage_instructions_matrix.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../../core/routes/app_routes_names.dart';
 
 class MedicineDetailsPage extends StatefulWidget {
   final String name;
@@ -168,8 +170,6 @@ class _MedicineDetailsPageState extends State<MedicineDetailsPage> {
               );
             } else if (state is MedicineDetailsSuccess) {
               final details = state.medicineDetails;
-
-              // Override unit price with real API price if available
               _unitPrice = details.price.toDouble();
 
               return Column(
@@ -178,13 +178,9 @@ class _MedicineDetailsPageState extends State<MedicineDetailsPage> {
                     child: Column(
                       children: [
                         HeroBanner(
-                          onBack: () => Navigator.pop(context),
+                          onBack: () => context.pop(),
                           onCart: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const CartPage()),
-                            );
+                            context.push(AppRoutesNames.cart);
                           },
                         ),
                         Expanded(
@@ -196,8 +192,7 @@ class _MedicineDetailsPageState extends State<MedicineDetailsPage> {
                                 vertical: AppPadding.p28,
                               ),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   IdentityMedicineCard(
                                     name: details.name,
@@ -223,24 +218,28 @@ class _MedicineDetailsPageState extends State<MedicineDetailsPage> {
                                   ),
                                   const SizedBox(height: 28),
                                   const SectionHeader(
-                                      title: "Usage Instructions"),
+                                    title: "Usage Instructions",
+                                  ),
                                   const SizedBox(height: 12),
                                   UsageInstructionsMatrix(
-                                    indications: details
-                                        .usageInstructions.indications,
+                                    indications:
+                                        details.usageInstructions.indications,
                                     dosageInstructions: details
-                                        .usageInstructions.dosageInstructions,
+                                        .usageInstructions
+                                        .dosageInstructions,
                                   ),
                                   const SizedBox(height: 32),
                                   const SectionHeader(
-                                      title: "Chemical Profile"),
+                                    title: "Chemical Profile",
+                                  ),
                                   const SizedBox(height: 12),
                                   BioChemSpecificationCard(
                                     medicineInfo: details.medicineInfo,
                                   ),
                                   const SizedBox(height: 32),
                                   const SectionHeader(
-                                      title: "Clinical Information"),
+                                    title: "Clinical Information",
+                                  ),
                                   const SizedBox(height: 14),
                                   MonographFilterRow(
                                     selectedSection: _selectedSection,
@@ -253,12 +252,13 @@ class _MedicineDetailsPageState extends State<MedicineDetailsPage> {
                                   const SizedBox(height: 16),
                                   ActiveMonographContent(
                                     selectedSection: _selectedSection,
-                                    indications: details
-                                        .usageInstructions.indications,
-                                    sideEffects: details
-                                        .usageInstructions.sideEffects,
+                                    indications:
+                                        details.usageInstructions.indications,
+                                    sideEffects:
+                                        details.usageInstructions.sideEffects,
                                     dosageInstructions: details
-                                        .usageInstructions.dosageInstructions,
+                                        .usageInstructions
+                                        .dosageInstructions,
                                   ),
                                   const SizedBox(height: 24),
                                 ],

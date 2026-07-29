@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/features/patient/lab_results/data/models/lab_results_response.dart';
 import 'package:chefaa/features/patient/lab_results/presentation/manager/lab_results_cubit.dart';
 import 'package:chefaa/features/patient/lab_results/presentation/manager/lab_results_state.dart';
 import 'package:chefaa/features/patient/lab_results/presentation/widgets/lab_result_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class LabResultsPage extends StatefulWidget {
   const LabResultsPage({super.key});
@@ -105,7 +106,7 @@ class _LabResultsPageState extends State<LabResultsPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorManager.primary,
                       shape: RoundedRectangleBorder(
@@ -133,16 +134,19 @@ class _LabResultsPageState extends State<LabResultsPage> {
 
   void _openFullScreenImage(BuildContext context, LabResultItem item) {
     if (item.fileUrl == null || item.fileUrl!.isEmpty) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => Scaffold(
+
+    showDialog(
+      context: context,
+      useSafeArea: false,
+      builder: (dialogContext) => Dialog.fullscreen(
+        child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
             backgroundColor: Colors.black,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.close, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => dialogContext.pop(),
             ),
             title: Text(
               item.fileName ?? "Report Document",
@@ -195,7 +199,7 @@ class _LabResultsPageState extends State<LabResultsPage> {
             color: ColorManager.primary,
             size: 24.sp,
           ),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

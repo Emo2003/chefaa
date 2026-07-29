@@ -12,6 +12,7 @@ import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/widgets/inside_app_bar.dart';
 import 'package:chefaa/core/widgets/custom_btn.dart';
+import 'package:go_router/go_router.dart';
 
 class MapPickerResult {
   final String address;
@@ -438,9 +439,7 @@ class _MapPickerState extends State<MapPicker> {
                     isDisabled: _selectedPosition == null || _isResolving,
                     onPressed: () {
                       if (_selectedPosition != null) {
-                        Navigator.pop(
-                          context,
-                          MapPickerResult(
+                        context.pop(MapPickerResult(
                             address: _selectedAddress,
                             latitude: _selectedPosition!.latitude,
                             longitude: _selectedPosition!.longitude,

@@ -26,6 +26,7 @@ import '../widgets/item_column.dart';
 import '../widgets/item_container.dart';
 import '../widgets/item_content.dart';
 import '../widgets/location_helper.dart';
+import 'package:go_router/go_router.dart';
 
 class PatientProfilePage extends StatefulWidget {
   const PatientProfilePage({super.key});
@@ -151,7 +152,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
                                             actions: [
                                               TextButton(
                                                 onPressed: () {
-                                                  Navigator.pop(context);
+                                                  context.pop();
                                                   LocationHelper.getCurrentLocation(
                                                     context,
                                                   );
@@ -331,10 +332,7 @@ class LogOutBtn extends StatelessWidget {
           context.read<MedicationCubit>().reset();
         }
         if (context.mounted) {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRoutesNames.login,
-            (route) => false,
+          context.go(AppRoutesNames.login,
           );
         }
       },

@@ -1,13 +1,14 @@
 import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/inside_app_bar.dart';
-import 'package:chefaa/features/doctor/layout/home/presentation/widgets/custom_outline_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import
+'package:chefaa/features/doctor/home/presentation/widgets/custom_outline_button.dart';
 import 'package:chefaa/features/patient/cart/presentation/manager/cart_cubit.dart';
 import 'package:chefaa/features/patient/cart/presentation/widgets/cart_item_card.dart';
 import 'package:chefaa/features/patient/cart/presentation/widgets/order_summary_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -110,16 +111,17 @@ class _CartPageState extends State<CartPage> {
                 if (pid == null || pid.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("Pharmacy info is missing. Please add items from a pharmacy first."),
+                      content: Text(
+                        "Pharmacy info is missing. Please add items from a pharmacy first.",
+                      ),
                       backgroundColor: Colors.red,
                     ),
                   );
                   return;
                 }
-                Navigator.pushNamed(
-                  context,
+                context.push(
                   AppRoutesNames.checkoutPage,
-                  arguments: {
+                  extra: {
                     'pharmacyId': pid,
                     'items': cartItems,
                     'subtotal': subtotal,

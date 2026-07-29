@@ -4,6 +4,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../manager/profile_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class LocationHelper {
   static Future<void> getCurrentLocation(BuildContext context) async {
@@ -96,7 +97,7 @@ class LocationHelper {
         actions: [
           ElevatedButton(
             onPressed: () async {
-              Navigator.pop(context);
+              context.pop();
 
               await getCurrentLocation(context);
             },

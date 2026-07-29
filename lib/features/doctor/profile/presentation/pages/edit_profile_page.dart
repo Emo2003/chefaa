@@ -14,6 +14,7 @@ import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/widgets/custom_dropdown_btn.dart';
 import 'package:chefaa/features/doctor/profile/domain/entities/doctor_profile_entity.dart';
 import 'package:chefaa/features/doctor/profile/presentation/manager/doctor_profile_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class EditProfilePage extends StatefulWidget {
   final DoctorProfileEntity? doctorData;
@@ -58,16 +59,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           );
         } else if (state is UpdateDoctorDataSuccessState) {
-          Navigator.pop(context);
+          context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Profile updated successfully!'),
               backgroundColor: ColorManager.lightGreen,
             ),
           );
-          Navigator.pop(context);
+          context.pop();
         } else if (state is UpdateDoctorDataErrorState) {
-          Navigator.pop(context);
+          context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),

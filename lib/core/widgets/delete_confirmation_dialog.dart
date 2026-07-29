@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class DeleteConfirmationDialog {
   static Future<void> show({
@@ -25,7 +26,7 @@ class DeleteConfirmationDialog {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: Text(
               "Cancel",
               style: getMediumStyle(color: ColorManager.gray, fontSize: 18),
@@ -33,7 +34,7 @@ class DeleteConfirmationDialog {
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               onConfirm();
             },
             child: Text(

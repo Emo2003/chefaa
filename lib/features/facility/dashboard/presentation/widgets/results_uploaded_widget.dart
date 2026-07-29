@@ -7,6 +7,7 @@ import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/features/facility/dashboard/data/models/get_dashboard_response.dart';
 import 'uploaded_result_item_widget.dart';
 import 'empty_state_card_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class ResultsUploadedWidget extends StatelessWidget {
   final List<DashboardRequestItem>? uploadedResults;
@@ -39,7 +40,7 @@ class ResultsUploadedWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, AppRoutesNames.facilityResults);
+                context.push(AppRoutesNames.facilityResults);
               },
               child: Text(
                 "History",

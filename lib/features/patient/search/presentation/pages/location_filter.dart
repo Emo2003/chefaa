@@ -13,6 +13,7 @@ import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/features/patient/profile/presentation/widgets/bottom_sheet.dart';
 import 'package:chefaa/features/patient/search/domain/entities/clinic_model.dart';
 import 'package:chefaa/features/patient/search/presentation/widgets/search_card.dart';
+import 'package:go_router/go_router.dart';
 
 class LocationFilter extends StatefulWidget {
   const LocationFilter({super.key});
@@ -211,7 +212,7 @@ class _LocationFilterState extends State<LocationFilter> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => context.pop(),
                         icon: const Icon(
                           Icons.arrow_back_ios,
                           color: ColorManager.black,

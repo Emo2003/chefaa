@@ -1,17 +1,18 @@
+import 'package:chefaa/core/resources/color_manager.dart';
+import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/custom_btn.dart';
 import 'package:chefaa/features/patient/booking/presentation/manager/booking_cubit.dart';
 import 'package:chefaa/features/patient/booking/presentation/manager/booking_state.dart';
+import 'package:chefaa/features/patient/booking/presentation/widgets/confirm_booking/appointment_card.dart';
+import 'package:chefaa/features/patient/booking/presentation/widgets/confirm_booking/payment_card_form.dart';
+import 'package:chefaa/features/patient/booking/presentation/widgets/confirm_booking/payment_methods_card.dart';
 import 'package:chefaa/features/patient/booking/presentation/widgets/sub_text.dart';
 import 'package:chefaa/features/patient/booking/presentation/widgets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:chefaa/core/resources/color_manager.dart';
-import 'package:chefaa/core/resources/styles_manager.dart';
-import 'package:chefaa/features/patient/booking/presentation/widgets/confirm_booking/appointment_card.dart';
-import 'package:chefaa/features/patient/booking/presentation/widgets/confirm_booking/payment_card_form.dart';
-import 'package:chefaa/features/patient/booking/presentation/widgets/confirm_booking/payment_methods_card.dart';
+import 'package:go_router/go_router.dart';
 
 class ConfirmBooking extends StatelessWidget {
   const ConfirmBooking({super.key});
@@ -25,8 +26,7 @@ class ConfirmBooking extends StatelessWidget {
           current is BookingErrorState ||
           current is BookingSuccessState,
       listenWhen: (previous, current) =>
-          current is BookingSuccessState ||
-          current is BookingErrorState,
+          current is BookingSuccessState || current is BookingErrorState,
       listener: (context, state) {
         if (state is BookingSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -82,13 +82,10 @@ class ConfirmBooking extends StatelessWidget {
 
           Future.delayed(const Duration(milliseconds: 300), () {
             if (context.mounted) {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
+              if (GoRouter.of(context).canPop()) {
+                context.pop();
               } else {
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutesNames.patientLayout,
-                );
+                context.go(AppRoutesNames.patientLayout);
               }
             }
           });
@@ -124,15 +121,15 @@ class ConfirmBooking extends StatelessWidget {
 
                   24.verticalSpace,
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleText(text: "Payment Methods"),
-                        4.verticalSpace,
-                        const SubText(text: "Choose the best way to pay"),
-                        16.verticalSpace,
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TitleText(text: "Payment Methods"),
+                      4.verticalSpace,
+                      const SubText(text: "Choose the best way to pay"),
+                      16.verticalSpace,
+                    ],
+                  ),
 
                   PaymentMethodsCard(
                     title: "Credit Card",
@@ -162,19 +159,19 @@ class ConfirmBooking extends StatelessWidget {
                           )
                         : const SizedBox.shrink(),
                   ),
-                    Column(
-                      children: [
-                        16.verticalSpace,
-                        PaymentMethodsCard(
-                          image: "assets/images/cash.png",
-                          title: "Cash",
-                          isSelected:
-                              cubit.selectedPaymentMethod == PaymentMethod.cash,
-                          onTap: () =>
-                              cubit.selectPaymentMethod(PaymentMethod.cash),
-                        ),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      16.verticalSpace,
+                      PaymentMethodsCard(
+                        image: "assets/images/cash.png",
+                        title: "Cash",
+                        isSelected:
+                            cubit.selectedPaymentMethod == PaymentMethod.cash,
+                        onTap: () =>
+                            cubit.selectPaymentMethod(PaymentMethod.cash),
+                      ),
+                    ],
+                  ),
 
                   32.verticalSpace,
 

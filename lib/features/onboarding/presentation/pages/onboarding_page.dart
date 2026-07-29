@@ -4,6 +4,7 @@ import '../../../../core/routes/app_routes_names.dart';
 import '../../../../core/services/storage_service.dart';
 import '../../data/models/onboarding_model.dart';
 import '../widgets/onboarding_container.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -68,7 +69,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     } else {
       await StorageService.markOnboardingSeen();
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, AppRoutesNames.login);
+      context.pushReplacement(AppRoutesNames.login);
     }
   }
 

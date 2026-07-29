@@ -1,5 +1,5 @@
-import 'package:chefaa/chefaa.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
+import 'package:chefaa/core/routes/routes.dart';
 import 'package:chefaa/core/services/storage_service.dart';
 import 'package:dio/dio.dart';
 
@@ -25,10 +25,8 @@ class AuthInterceptor extends Interceptor {
       final message = responseData is Map ? responseData['message'] : null;
       if (message == 'Invalid or expired token') {
         await StorageService.clearAll();
-        navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          AppRoutesNames.login,
-          (route) => false,
-        );
+
+        AppRouter.router.go(AppRoutesNames.login);
       }
     }
     super.onError(err, handler);

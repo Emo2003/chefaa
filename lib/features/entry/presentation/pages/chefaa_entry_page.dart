@@ -7,6 +7,8 @@ import '../../../../core/routes/app_routes_names.dart';
 import '../../../../core/services/permissions_service.dart';
 import '../../../../core/services/storage_service.dart';
 import '../../../../core/widgets/permissions_request_dialog.dart';
+import 'package:chefaa/core/resources/color_manager.dart';
+import 'package:go_router/go_router.dart';
 
 
 class ChefaaEntryPage extends StatefulWidget {
@@ -35,7 +37,7 @@ class _ChefaaEntryPageState extends State<ChefaaEntryPage> {
     if (!hasSeenOnboarding) {
       if (!mounted) return;
       FlutterNativeSplash.remove();
-      Navigator.pushReplacementNamed(context, AppRoutesNames.onboardingRoute);
+      context.go(AppRoutesNames.onboardingRoute);
       return;
     }
 
@@ -47,7 +49,7 @@ class _ChefaaEntryPageState extends State<ChefaaEntryPage> {
     if (token == null || user == null) {
       if (!mounted) return;
       FlutterNativeSplash.remove();
-      Navigator.pushReplacementNamed(context, AppRoutesNames.login);
+      context.go(AppRoutesNames.login);
       return;
     }
 
@@ -63,7 +65,7 @@ class _ChefaaEntryPageState extends State<ChefaaEntryPage> {
     if (!mounted) return;
     final route = AppConstants.getLayoutFromRole(user.role);
     debugPrint('Step 4: navigating to $route');
-    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+    context.go(route);
   }
   Future<void> _requestPermissionsIfNeeded() async {
     final allPermissionsGranted =
@@ -90,7 +92,9 @@ class _ChefaaEntryPageState extends State<ChefaaEntryPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.white,
-      body: SizedBox.shrink(),
+      body: Center(
+        child: CircularProgressIndicator(color: ColorManager.primary),
+      ),
     );
   }
 }

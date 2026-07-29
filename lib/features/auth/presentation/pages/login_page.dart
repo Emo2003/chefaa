@@ -1,22 +1,21 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:chefaa/core/resources/assets_manager.dart';
-import 'package:chefaa/core/widgets/custom_btn.dart';
-import 'package:chefaa/core/widgets/custom_text_field.dart';
-import 'package:chefaa/core/widgets/validators.dart';
-import 'package:chefaa/features/auth/presentation/manager/auth_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
+import 'package:chefaa/core/widgets/custom_btn.dart';
+import 'package:chefaa/core/widgets/custom_text_field.dart';
 import 'package:chefaa/core/widgets/loading.dart';
-import 'package:chefaa/features/patient/auth/presentation/widgets/success_dialog.dart';
+import 'package:chefaa/core/widgets/validators.dart';
+import 'package:chefaa/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:chefaa/features/auth/presentation/widgets/custom_outline_btn.dart';
 import 'package:chefaa/features/auth/presentation/widgets/not_have_account.dart';
 import 'package:chefaa/features/auth/presentation/widgets/role_based_nav.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   final String? role;
@@ -38,26 +37,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _showSuccessAndNavigate(dynamic user) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => PopScope(
-          canPop: false,
-          child: SuccessDialog(
-            title: "Yeah ! Welcome back ${user.name}",
-            content: "Once again you login successfully into Chefaa app",
-          ),
-        ),
-      );
-      final rootNavigator = Navigator.of(context, rootNavigator: true);
-      Future.delayed(const Duration(milliseconds: 1500), () {
-        if (mounted) {
-          rootNavigator.pop();
-          _navigationService.toLayout(user.role!);
-        }
-      });
-    });
+    AnimatedSnackBar.rectangle(
+      'Success',
+      'Welcome back ${user.name}!',
+      type: AnimatedSnackBarType.success,
+      brightness: Brightness.dark,
+      duration: const Duration(seconds: 3),
+    ).show(context);
+
+    _navigationService.toLayout(user.role!);
   }
 
   @override
@@ -136,10 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutesNames.forgetPassword,
-                              );
+                              context.push(AppRoutesNames.forgetPassword);
                             },
                             child: const Text(
                               "Forgot Password?",

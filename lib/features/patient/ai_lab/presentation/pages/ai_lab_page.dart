@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/features/patient/ai_lab/presentation/widgets/ai_app_bar.dart';
+import 'package:go_router/go_router.dart';
 
 class AiLabPage extends StatefulWidget {
   const AiLabPage({super.key});
@@ -41,7 +42,7 @@ class _AiLabPageState extends State<AiLabPage> {
         child: AiAppBar(
           title1: "AI Lab Report",
           onPressed: () {
-            Navigator.pushNamed(context, AppRoutesNames.historyReportPage);
+            context.push(AppRoutesNames.historyReportPage);
           },
         ),
       ),
@@ -70,17 +71,14 @@ class _AiLabPageState extends State<AiLabPage> {
               }
 
               if (state is SuccessState) {
-                Navigator.pop(context);
+                context.pop();
 
-                Navigator.pushNamed(
-                  context,
-                  AppRoutesNames.aiLabAnalysis,
-                  arguments: state.report,
+                context.push(AppRoutesNames.aiLabAnalysis, extra: state.report,
                 );
               }
 
               if (state is ErrorState) {
-                Navigator.pop(context);
+                context.pop();
 
                 ScaffoldMessenger.of(
                   context,

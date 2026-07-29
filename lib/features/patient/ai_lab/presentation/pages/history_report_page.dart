@@ -1,12 +1,13 @@
 import 'package:chefaa/core/services/hive_service.dart';
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
 import 'package:chefaa/features/patient/ai_lab/data/models/report_analysis.dart';
 import 'package:chefaa/features/patient/ai_lab/presentation/manager/ai_report_cubit.dart';
 import 'package:chefaa/features/patient/ai_lab/presentation/widgets/analysis_app_bar.dart';
 import 'package:chefaa/features/patient/ai_lab/presentation/widgets/history_report_card.dart';
-import 'report_details_page.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../../../../core/routes/app_routes_names.dart';
 
 class ReportsHistoryPage extends StatelessWidget {
   const ReportsHistoryPage({super.key});
@@ -48,12 +49,7 @@ class ReportsHistoryPage extends StatelessWidget {
                 report: report,
 
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ReportDetailsPage(report: report),
-                    ),
-                  );
+                  context.push(AppRoutesNames.reportDetails, extra: report);
                 },
 
                 onDelete: () async {
@@ -73,4 +69,3 @@ class ReportsHistoryPage extends StatelessWidget {
     );
   }
 }
-

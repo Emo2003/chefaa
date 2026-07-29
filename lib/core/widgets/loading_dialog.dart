@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:chefaa/core/resources/color_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class LoadingDialog extends StatelessWidget {
   const LoadingDialog({super.key});
@@ -41,7 +42,7 @@ class LoadingDialog extends StatelessWidget {
               SizedBox(height: 32.h),
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(

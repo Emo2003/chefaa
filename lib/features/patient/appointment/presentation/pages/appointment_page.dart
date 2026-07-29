@@ -12,6 +12,7 @@ import 'package:chefaa/features/patient/appointment/presentation/widgets/appoint
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentPage extends StatelessWidget {
@@ -192,7 +193,7 @@ class _AppointmentView extends StatelessWidget {
                           ),
                           actions: [
                             TextButton(
-                              onPressed: () => Navigator.pop(ctx),
+                              onPressed: () => context.pop(),
                               child: Text(
                                 'No',
                                 style: getMediumStyle(
@@ -203,7 +204,7 @@ class _AppointmentView extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pop(ctx);
+                                context.pop();
                                 cubit.cancelAppointment(
                                   appointmentId: appointment.id ?? '',
                                 );
@@ -306,6 +307,7 @@ class _RescheduleSheetState extends State<_RescheduleSheet> {
       '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
   String get _displayDate => DateFormat('dd MMM yyyy').format(_pickedDate);
+
   String get _apiDate => DateFormat('yyyy-MM-dd').format(_pickedDate);
 
   Future<void> _pickDate() async {
@@ -358,7 +360,7 @@ class _RescheduleSheetState extends State<_RescheduleSheet> {
       slotEnd: _fmt(_slotEnd),
       timeChosed: _fmt(_timeChosed),
     );
-    Navigator.pop(context);
+    context.pop();
   }
 
   @override

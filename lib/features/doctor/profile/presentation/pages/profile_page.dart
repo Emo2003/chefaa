@@ -1,14 +1,8 @@
-import 'package:chefaa/features/patient/home/presentation/manager/users_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/config/get_config.dart';
-import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/font_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
-import 'package:chefaa/features/patient/profile/presentation/pages/profile_page.dart';
+import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/features/doctor/profile/domain/entities/doctor_profile_entity.dart';
 import 'package:chefaa/features/doctor/profile/presentation/manager/doctor_profile_cubit.dart';
 import 'package:chefaa/features/doctor/profile/presentation/widgets/about_card.dart';
@@ -18,7 +12,14 @@ import 'package:chefaa/features/doctor/profile/presentation/widgets/hero_section
 import 'package:chefaa/features/doctor/profile/presentation/widgets/incomplete_profile_state.dart';
 import 'package:chefaa/features/doctor/profile/presentation/widgets/quick_stats_row.dart';
 import 'package:chefaa/features/doctor/profile/presentation/widgets/section_title.dart';
-import 'edit_profile_page.dart';
+import 'package:chefaa/features/patient/home/presentation/manager/users_cubit.dart';
+import 'package:chefaa/features/patient/profile/presentation/pages/profile_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/resources/color_manager.dart';
 
 class DoctorProfile extends StatelessWidget {
   const DoctorProfile({super.key});
@@ -198,22 +199,18 @@ DoctorProfileEntity? resolveDoctor(
   return context.read<DoctorProfileCubit>().currentDoctor;
 }
 
-void openEditProfile(BuildContext context, DoctorProfileEntity doctor) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => BlocProvider.value(
-        value: context.read<DoctorProfileCubit>(),
-        child: EditProfilePage(doctorData: doctor),
-      ),
-    ),
-  ).then((_) {
-    try {
-      if (context.mounted) {
-        context.read<DoctorProfileCubit>().getDoctorData();
-      }
-    } catch (_) {}
-  });
+void openEditProfile(BuildContext context, DoctorProfileEntity doctor) async {
+  final cubit = context.read<DoctorProfileCubit>();
+  await context.push(
+    AppRoutesNames.editDoctorProfile,
+    extra: {'cubit': cubit, 'doctorData': doctor},
+  );
+
+  try {
+    if (context.mounted) {
+      context.read<DoctorProfileCubit>().getDoctorData();
+    }
+  } catch (_) {}
 }
 
 DoctorProfileEntity _placeholderDoctor(String userName) {

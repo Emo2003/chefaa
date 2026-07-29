@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:chefaa/core/error_handling/failure.dart';
 import 'package:chefaa/core/services/hive_service.dart';
 import 'package:chefaa/features/facility/dashboard/data/models/get_dashboard_response.dart';
@@ -24,7 +26,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
     required String requestId,
     required String filePath,
   }) async {
-    print("Repository upload requestId = $requestId");
+    debugPrint("Repository upload requestId = $requestId");
     try {
       final response = await _dashboardRemoteSource.uploadResult(
         requestId: requestId,

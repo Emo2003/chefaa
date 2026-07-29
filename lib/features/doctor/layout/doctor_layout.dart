@@ -1,10 +1,10 @@
-import 'package:chefaa/features/doctor/layout/chatbot/presentation/manager/doc_chatbot_cubit.dart';
-import 'package:chefaa/features/doctor/layout/chatbot/presentation/pages/doc_chatbot_page.dart';
-import 'package:chefaa/features/doctor/layout/daily_brief/presentation/pages/daily_brief_page.dart';
-import 'package:chefaa/features/doctor/layout/home/presentation/manager/clinic_cubit.dart';
-import 'package:chefaa/features/doctor/layout/home/presentation/pages/doctor_home.dart';
-import 'package:chefaa/features/doctor/layout/patients/presentation/manager/patients_cubit.dart';
-import 'package:chefaa/features/doctor/layout/patients/presentation/pages/patients_page.dart';
+import 'package:chefaa/features/doctor/chatbot/presentation/manager/doc_chatbot_cubit.dart';
+import 'package:chefaa/features/doctor/chatbot/presentation/pages/doc_chatbot_page.dart';
+import 'package:chefaa/features/doctor/daily_brief/presentation/pages/daily_brief_page.dart';
+import 'package:chefaa/features/doctor/home/presentation/manager/clinic_cubit.dart';
+import 'package:chefaa/features/doctor/home/presentation/pages/doctor_home.dart';
+import 'package:chefaa/features/doctor/patients/presentation/manager/patients_cubit.dart';
+import 'package:chefaa/features/doctor/patients/presentation/pages/patients_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +15,7 @@ import 'package:chefaa/core/resources/assets_manager.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/features/doctor/profile/presentation/pages/profile_page.dart';
-import 'daily_brief/presentation/manager/brief_cubit.dart';
+import 'package:chefaa/features/doctor/daily_brief/presentation/manager/brief_cubit.dart';
 
 class DoctorLayout extends StatefulWidget {
   const DoctorLayout({super.key});

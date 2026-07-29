@@ -9,6 +9,7 @@ import 'package:chefaa/core/widgets/custom_text_field.dart';
 import 'package:chefaa/core/widgets/inside_app_bar.dart';
 import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/features/pharmacy/inventory/presentation/manager/pharmacy_inventory_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class AddMedicinePage extends StatefulWidget {
   const AddMedicinePage({super.key});
@@ -136,7 +137,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                   backgroundColor: ColorManager.lightGreen,
                 ),
               );
-              Navigator.pop(context, true);
+              context.pop(true);
             } else if (state is AddMedicineError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

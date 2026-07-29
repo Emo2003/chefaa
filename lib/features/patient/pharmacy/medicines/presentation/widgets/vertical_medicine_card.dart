@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-
-import 'package:chefaa/features/patient/pharmacy/medicines/data/models/medicine_model.dart';
 import 'package:chefaa/features/patient/cart/presentation/manager/cart_cubit.dart';
-import 'package:chefaa/features/patient/pharmacy/medicines/presentation/pages/medicine_details_page.dart';
+import 'package:chefaa/features/patient/pharmacy/medicines/data/models/medicine_model.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../../core/routes/app_routes_names.dart';
 import 'add_to_cart_button.dart';
 
 class VerticalMedicineCard extends StatelessWidget {
@@ -20,18 +21,7 @@ class VerticalMedicineCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => MedicineDetailsPage(
-              name: medicine.name,
-              activeIngredient: medicine.category,
-              price: '${medicine.price} EGP',
-              medicineId: medicine.id,
-              pharmacyId: pharmacyId,
-            ),
-          ),
-        );
+        context.push(AppRoutesNames.medicineDetails, extra: medicine);
       },
       child: Container(
         width: double.infinity,

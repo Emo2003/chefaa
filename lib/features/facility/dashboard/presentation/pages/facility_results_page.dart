@@ -22,6 +22,7 @@ import 'package:chefaa/features/facility/dashboard/presentation/widgets/pending_
 import 'package:chefaa/features/facility/dashboard/presentation/widgets/recently_uploaded_item_card.dart';
 import 'package:chefaa/features/facility/dashboard/presentation/widgets/section_header_widget.dart';
 import 'facility_results_dummy_data.dart';
+import 'package:go_router/go_router.dart';
 
 class FacilityResultsPage extends StatefulWidget {
   const FacilityResultsPage({super.key});
@@ -239,7 +240,7 @@ class _FacilityResultsPageState extends State<FacilityResultsPage> {
                   color: ColorManager.primary,
                   size: FontSize.s24.sp,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
               ),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,7 +337,7 @@ class _FacilityResultsPageState extends State<FacilityResultsPage> {
                               if (result != null && result.files.isNotEmpty) {
                                 final filePath = result.files.first.path;
                                 if (filePath != null && mounted) {
-                                  print("UI upload requestId = ${item.id}");
+                                  debugPrint("UI upload requestId = ${item.id}");
                                   cubit.uploadResult(
                                     requestId: "6a3019112eb20b02387e784a",
                                     filePath: filePath,
@@ -360,7 +361,7 @@ class _FacilityResultsPageState extends State<FacilityResultsPage> {
                           if (result != null && result.files.isNotEmpty) {
                             final filePath = result.files.first.path;
                             if (filePath != null && mounted) {
-                              print(
+                              debugPrint(
                                 "UI upload requestId = 6a3019112eb20b02387e784a",
                               );
                               cubit.uploadResult(
@@ -380,7 +381,7 @@ class _FacilityResultsPageState extends State<FacilityResultsPage> {
                           if (result != null && result.files.isNotEmpty) {
                             final filePath = result.files.first.path;
                             if (filePath != null && mounted) {
-                              print(
+                              debugPrint(
                                 "UI upload requestId = 6a3019112eb20b02387e784a",
                               );
                               cubit.uploadResult(

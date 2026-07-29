@@ -2,11 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'core/routes/app_routes_names.dart';
 import 'core/routes/routes.dart';
 import 'core/theme/app_theme.dart';
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class Chefaa extends StatelessWidget {
   const Chefaa({super.key});
@@ -18,16 +15,13 @@ class Chefaa extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          navigatorKey: navigatorKey,
+        return MaterialApp.router(
+          routerConfig: AppRouter.router,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           theme: AppTheme.theme,
           debugShowCheckedModeBanner: false,
-          onGenerateRoute: Routes.generateRoute,
-          initialRoute: AppRoutesNames.appEntryRoute
-          ,
         );
       },
     );

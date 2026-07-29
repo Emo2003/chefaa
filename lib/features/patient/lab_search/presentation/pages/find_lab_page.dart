@@ -210,7 +210,7 @@ class _FindLabViewState extends State<_FindLabView> {
   //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
   //     children: [
   //       InkWell(
-  //         onTap: () => Navigator.pop(context),
+  //         onTap: () => context.pop(),
   //         borderRadius: BorderRadius.circular(AppRadius.r20.r),
   //         child: Container(
   //           width: 40.w,

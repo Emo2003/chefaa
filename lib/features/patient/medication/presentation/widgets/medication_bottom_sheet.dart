@@ -16,6 +16,7 @@ import 'package:chefaa/features/patient/medication/data/models/medications.dart'
 import 'package:chefaa/features/patient/medication/presentation/manager/medication_cubit.dart';
 import 'package:chefaa/features/patient/medication/presentation/manager/medication_state.dart';
 import 'outline_button.dart';
+import 'package:go_router/go_router.dart';
 
 class MedicationBottomSheet extends StatefulWidget {
   final String title;
@@ -155,14 +156,14 @@ class _MedicationBottomSheetState extends State<MedicationBottomSheet> {
         }
 
         if (state is MedicationUpdateSuccessState) {
-          Navigator.of(context).pop();
+          context.pop();
           messenger.showSnackBar(
             const SnackBar(content: Text("Medication updated successfully!")),
           );
         }
 
         if (state is MedicationDeleteSuccessState) {
-          Navigator.of(context).pop();
+          context.pop();
           messenger.showSnackBar(
             const SnackBar(content: Text("Medication deleted successfully!")),
           );

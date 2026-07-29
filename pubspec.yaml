@@ -66,6 +66,7 @@ dependencies:
   easy_localization:
   material_symbols_icons:
   firebase_core: ^4.11.0
+  go_router: ^17.3.0
 
 dev_dependencies:
   injectable_generator:

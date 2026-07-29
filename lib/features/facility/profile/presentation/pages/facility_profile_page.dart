@@ -1,21 +1,20 @@
-import 'package:chefaa/features/facility/profile/presentation/manager/facility_profile_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/config/get_config.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/services/storage_service.dart';
 import 'package:chefaa/core/widgets/custom_app_bar.dart';
-import 'package:chefaa/features/patient/profile/presentation/pages/profile_page.dart';
-
+import 'package:chefaa/features/facility/profile/presentation/manager/facility_profile_cubit.dart';
 import 'package:chefaa/features/facility/profile/presentation/widgets/facility_info_section.dart';
 import 'package:chefaa/features/facility/profile/presentation/widgets/facility_profile_header_section.dart';
 import 'package:chefaa/features/facility/profile/presentation/widgets/location_section.dart';
 import 'package:chefaa/features/facility/profile/presentation/widgets/profile_stats_section.dart';
 import 'package:chefaa/features/facility/profile/presentation/widgets/update_profile_bottom_sheet.dart';
+import 'package:chefaa/features/patient/profile/presentation/pages/profile_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class FacilityProfilePage extends StatefulWidget {
   const FacilityProfilePage({super.key});
@@ -81,7 +80,7 @@ class _FacilityProfilePageState extends State<FacilityProfilePage> {
                   ),
                 );
               } else if (state is UpdateProfileSuccess) {
-                if (Navigator.canPop(context)) Navigator.pop(context);
+                if (context.canPop()) context.pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Profile updated successfully.'),
@@ -89,7 +88,7 @@ class _FacilityProfilePageState extends State<FacilityProfilePage> {
                   ),
                 );
               } else if (state is UpdateProfileFailure) {
-                if (Navigator.canPop(context)) Navigator.pop(context);
+                if (context.canPop()) context.pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.errorMessage),

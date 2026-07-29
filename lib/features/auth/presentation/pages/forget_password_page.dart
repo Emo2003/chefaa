@@ -18,6 +18,7 @@ import 'package:chefaa/core/widgets/app_bar_content.dart';
 import 'package:chefaa/core/widgets/custom_text_field.dart';
 import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/features/auth/presentation/widgets/back_button.dart';
+import 'package:go_router/go_router.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -57,11 +58,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               Loading.show(context);
             } else if (state is ForgotPassSuccessState) {
               Loading.hide(context);
-              Navigator.pushNamed(
-                context,
-                AppRoutesNames.resetCode,
-                arguments: currentIndex,
-              );
+              context.push(AppRoutesNames.resetCode.replaceFirst(':index', currentIndex.toString()));
             } else if (state is ForgotPassErrorState) {
               Loading.hide(context);
               _showErrorDialog(context, state.message!);

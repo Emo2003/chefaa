@@ -15,6 +15,7 @@ import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/core/widgets/validators.dart';
 import 'package:chefaa/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:chefaa/features/auth/presentation/widgets/back_button.dart';
+import 'package:go_router/go_router.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
@@ -43,11 +44,7 @@ class ResetPassword extends StatelessWidget {
             Loading.show(context);
           } else if (state is ResetPassSuccessState) {
             Loading.hide(context);
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-
-              AppRoutesNames.login,
-              (route) => false,
+            context.go(AppRoutesNames.login,
             );
           } else if (state is ResetPassErrorState) {
             Loading.hide(context);

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class SpecialityCard extends StatelessWidget {
   final Map<String, String> item;
@@ -13,7 +14,7 @@ class SpecialityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context, item["specialityName"]);
+        context.pop(item["specialityName"]);
       },
       child: Column(
         children: [

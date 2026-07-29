@@ -11,6 +11,7 @@ import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/custom_btn.dart';
 import 'package:chefaa/features/patient/complete_auth_data/presentation/manager/complete_cubit.dart';
 import 'package:chefaa/features/patient/complete_auth_data/presentation/widgets/complete_data_container.dart';
+import 'package:go_router/go_router.dart';
 
 class LastCompleteData extends StatefulWidget {
   const LastCompleteData({super.key});
@@ -43,10 +44,7 @@ class _LastCompleteDataState extends State<LastCompleteData> {
               ).showSnackBar(SnackBar(content: Text(message)));
             } else if (state.status == CompleteStatus.success) {
               Loading.hide(context);
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutesNames.patientLayout,
-                (route) => false,
+              context.go(AppRoutesNames.patientLayout,
               );
             }
           },

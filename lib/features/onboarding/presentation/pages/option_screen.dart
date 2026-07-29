@@ -1,17 +1,17 @@
 import 'package:chefaa/core/resources/assets_manager.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/constants_manager.dart';
-import 'package:chefaa/core/resources/styles_manager.dart';
-import 'package:chefaa/core/routes/app_routes_names.dart';
-import 'package:chefaa/features/onboarding/presentation/widgets/next_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/resources/font_manager.dart';
+import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
+import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/app_bar_content.dart';
 import 'package:chefaa/core/widgets/custom_app_bar.dart';
+import 'package:chefaa/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:chefaa/features/onboarding/presentation/widgets/option_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class OptionScreen extends StatefulWidget {
   const OptionScreen({super.key});
@@ -70,10 +70,17 @@ class _OptionScreenState extends State<OptionScreen> {
                 32.verticalSpace,
 
                 OptionCard(
-                  title: AppConstants.facility,
+                  title: AppConstants.pharmacy,
                   image: ImageAssets.drugs,
-                  isSelected: selectedRole == AppConstants.facility,
-                  onTap: () => onSelect(AppConstants.facility),
+                  isSelected: selectedRole == AppConstants.pharmacy,
+                  onTap: () => onSelect(AppConstants.pharmacy),
+                ),
+                32.verticalSpace,
+                OptionCard(
+                  title: "Medical Lab /\nRadiology Center",
+                  image: "assets/images/lab.png",
+                  isSelected: selectedRole == AppConstants.lab,
+                  onTap: () => onSelect(AppConstants.lab),
                 ),
 
                 Padding(
@@ -88,22 +95,18 @@ class _OptionScreenState extends State<OptionScreen> {
                         isEnabled: selectedRole != null,
                         onTap: () {
                           if (selectedRole == AppConstants.doctor) {
-                            Navigator.pushReplacementNamed(
-                              context,
+                            context.pushReplacement(
                               AppRoutesNames.docSignUp,
-                              arguments: AppConstants.doctor.toLowerCase(),
+                              extra: AppConstants.doctor.toLowerCase(),
                             );
                           } else if (selectedRole == AppConstants.patient) {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              AppRoutesNames.patientSignUp,
-                              arguments: AppConstants.patient.toLowerCase(),
+                            context.pushReplacement(
+                              AppRoutesNames.patientSignUp.replaceFirst(':role', AppConstants.patient.toLowerCase()),
                             );
-                          } else if (selectedRole == AppConstants.facility) {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              AppRoutesNames.facilityOption,
-                            );
+                          } else if (selectedRole == AppConstants.lab) {
+                            context.pushReplacement(AppRoutesNames.facilitySignUp, extra: AppConstants.lab.toLowerCase());
+                          } else if (selectedRole == AppConstants.pharmacy) {
+                            context.pushReplacement(AppRoutesNames.pharmacySignUp, extra: AppConstants.pharmacy.toLowerCase());
                           }
                         },
                       ),

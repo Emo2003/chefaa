@@ -1,26 +1,24 @@
+import 'package:chefaa/core/config/get_config.dart';
 import 'package:chefaa/core/resources/assets_manager.dart';
 import 'package:chefaa/core/resources/constants_manager.dart';
+import 'package:chefaa/core/resources/values_manager.dart';
+import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/already_have_account.dart';
+import 'package:chefaa/core/widgets/custom_app_bar.dart';
 import 'package:chefaa/core/widgets/custom_btn.dart';
+import 'package:chefaa/core/widgets/custom_text_field.dart';
 import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/core/widgets/terms_of_service.dart';
 import 'package:chefaa/features/patient/auth/presentation/manager/patient_cubit.dart';
+import 'package:chefaa/features/patient/auth/presentation/manager/patient_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:chefaa/core/config/get_config.dart';
-import 'package:chefaa/core/resources/values_manager.dart';
-import 'package:chefaa/core/routes/app_routes_names.dart';
-import 'package:chefaa/core/widgets/app_bar_content.dart';
-import 'package:chefaa/core/widgets/custom_app_bar.dart';
-import 'package:chefaa/core/widgets/custom_text_field.dart';
-import 'package:chefaa/core/widgets/validators.dart';
-import 'package:chefaa/features/patient/complete_auth_data/presentation/manager/complete_cubit.dart';
-import 'package:chefaa/features/patient/complete_auth_data/presentation/pages/first_complete_page.dart';
-import 'package:chefaa/features/patient/auth/presentation/manager/patient_state.dart';
-import 'package:chefaa/features/patient/auth/presentation/widgets/success_dialog.dart';
+import '../../../../../core/widgets/app_bar_content.dart';
+import '../../../../../core/widgets/validators.dart';
 
 class PatientSignUpPage extends StatefulWidget {
   final String? role;
@@ -69,32 +67,13 @@ class _PatientSignUpPageState extends State<PatientSignUpPage> {
             }
             if (state is SignUpSuccessState) {
               Loading.hide(context);
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const PopScope(
-                  canPop: false,
-                  child: SuccessDialog(
-                    title: "Success",
-                    content: "Account created successfully",
-                  ),
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Account created successfully"),
+                  backgroundColor: Colors.green,
                 ),
               );
-              final rootNavigator = Navigator.of(context, rootNavigator: true);
-              final localNavigator = Navigator.of(context);
-              Future.delayed(const Duration(seconds: 2), () {
-                if (mounted) {
-                  rootNavigator.pop();
-                  localNavigator.pushReplacement(
-                    MaterialPageRoute(
-                      builder: (_) => BlocProvider(
-                        create: (_) => getIt<CompleteCubit>(),
-                        child: const FirstCompletePage(),
-                      ),
-                    ),
-                  );
-                }
-              });
+              context.go(AppRoutesNames.patientSignUpCompleteData);
             }
           },
           child: SafeArea(
@@ -223,10 +202,7 @@ class _PatientSignUpPageState extends State<PatientSignUpPage> {
                           12.verticalSpace,
                           AlreadyHaveAccount(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                AppRoutesNames.login,
-                              );
+                              context.go(AppRoutesNames.login);
                             },
                           ),
                         ],

@@ -11,6 +11,7 @@ import 'package:chefaa/core/resources/font_manager.dart';
 import 'package:chefaa/core/widgets/app_bar_content.dart';
 import 'package:chefaa/core/widgets/custom_app_bar.dart';
 import 'package:chefaa/features/onboarding/presentation/widgets/option_card.dart';
+import 'package:go_router/go_router.dart';
 
 class FacilityOptionScreen extends StatefulWidget {
   const FacilityOptionScreen({super.key});
@@ -80,17 +81,11 @@ class _FacilityOptionScreenState extends State<FacilityOptionScreen> {
                             isEnabled: selectedRole != null,
                             onTap: () {
                               if (selectedRole == AppConstants.lab) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  AppRoutesNames.facilitySignUp,
-                                  arguments: AppConstants.lab.toLowerCase(),
+                                context.pushReplacement(AppRoutesNames.facilitySignUp, extra: AppConstants.lab.toLowerCase(),
                                 );
                               } else if (selectedRole ==
                                   AppConstants.pharmacy) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  AppRoutesNames.pharmacySignUp,
-                                  arguments: AppConstants.pharmacy
+                                context.pushReplacement(AppRoutesNames.pharmacySignUp, extra: AppConstants.pharmacy
                                       .toLowerCase(),
                                 );
                               }

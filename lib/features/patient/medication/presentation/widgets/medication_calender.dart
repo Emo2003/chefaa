@@ -5,6 +5,7 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'package:chefaa/core/resources/styles_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class MedicationCalender extends StatefulWidget {
   final TextEditingController controller;
@@ -135,7 +136,7 @@ class _CustomCalendarFieldState extends State<MedicationCalender> {
         final DateTime selectedDate = args.value;
         widget.controller.text = DateFormat('yyyy-MM-dd').format(selectedDate);
         widget.onDateSelected(selectedDate);
-        Navigator.pop(context);
+        context.pop();
       },
     );
   }

@@ -1,14 +1,15 @@
-import 'package:chefaa/core/resources/styles_manager.dart';
-import 'package:chefaa/features/onboarding/data/models/onboarding_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/extensions/build_ex.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/font_manager.dart';
+import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/resources/values_manager.dart';
 import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/services/storage_service.dart';
+import 'package:chefaa/features/onboarding/data/models/onboarding_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
 import 'next_button.dart';
 
 class OnboardingContainer extends StatelessWidget {
@@ -90,10 +91,7 @@ class OnboardingContainer extends StatelessWidget {
                     if (!context.mounted) return;
                     await StorageService.markOnboardingSeen();
                     if (!context.mounted) return;
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutesNames.login,
-                    );
+                    context.go(AppRoutesNames.login);
                   }
                 },
               ),

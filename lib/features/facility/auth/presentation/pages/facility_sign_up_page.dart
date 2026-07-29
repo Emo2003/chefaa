@@ -3,6 +3,7 @@ import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/get_config.dart';
 import '../../../../../core/resources/constants_manager.dart';
@@ -71,8 +72,8 @@ class _FacilitySignupState extends State<FacilitySignup> {
                 builder: (context) => const LoadingDialog(),
               );
             } else if (state is SingUpFailure) {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
+              if (context.canPop()) {
+                context.pop();
               }
               AnimatedSnackBar.rectangle(
                 AppConstants.error,
@@ -81,8 +82,8 @@ class _FacilitySignupState extends State<FacilitySignup> {
                 brightness: Brightness.dark,
               ).show(context);
             } else if (state is SingUpSuccess) {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
+              if (context.canPop()) {
+                context.pop();
               }
               AnimatedSnackBar.rectangle(
                 AppConstants.success,
@@ -90,10 +91,7 @@ class _FacilitySignupState extends State<FacilitySignup> {
                 type: AnimatedSnackBarType.success,
                 brightness: Brightness.dark,
               ).show(context);
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutesNames.login,
-              );
+              context.go(AppRoutesNames.login);
             }
           },
           child: SafeArea(
@@ -130,4 +128,3 @@ class _FacilitySignupState extends State<FacilitySignup> {
     );
   }
 }
-

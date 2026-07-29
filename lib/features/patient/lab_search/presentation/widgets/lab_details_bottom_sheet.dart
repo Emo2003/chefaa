@@ -5,7 +5,7 @@ import 'package:chefaa/core/resources/assets_manager.dart';
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/features/patient/lab_search/data/models/search_centers_response.dart';
-import 'package:chefaa/features/patient/lab_search/presentation/widgets/center_recommendation_card.dart';
+import 'package:go_router/go_router.dart';
 
 class LabDetailsBottomSheet extends StatelessWidget {
   final CenterModel centerData;
@@ -237,7 +237,7 @@ class LabDetailsBottomSheet extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Navigate to booking or handle action
-                    Navigator.pop(context);
+                    context.pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorManager.primary,

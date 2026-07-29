@@ -22,6 +22,7 @@ import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/app_bar_content.dart';
 import 'package:chefaa/core/widgets/license_formatter.dart';
 import 'package:chefaa/features/pharmacy/auth/presentation/manager/pharmacy_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class PharmacySignUpPage extends StatefulWidget {
   const PharmacySignUpPage({super.key});
@@ -80,10 +81,7 @@ class _PharmacySignUpPageState extends State<PharmacySignUpPage> {
                 type: AnimatedSnackBarType.success,
                 brightness: Brightness.dark,
               ).show(context);
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutesNames.login,
-              );
+              context.go(AppRoutesNames.login);
             }
           },
           child: SingleChildScrollView(
@@ -272,8 +270,7 @@ class _PharmacySignUpPageState extends State<PharmacySignUpPage> {
                             selector: (state) => state is PharmacyLoadingState,
                             builder: (context, isLoading) {
                               return CustomBtn(
-                                isDisabled:
-                                    !isChecked || isLoading,
+                                isDisabled: !isChecked || isLoading,
                                 text: AppConstants.submitForVerification,
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {

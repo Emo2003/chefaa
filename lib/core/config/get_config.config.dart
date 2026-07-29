@@ -27,46 +27,46 @@ import 'package:chefaa/features/doctor/auth/domain/repositories/repo.dart'
     as _i197;
 import 'package:chefaa/features/doctor/auth/presentation/manager/doctor_auth_cubit.dart'
     as _i1056;
-import 'package:chefaa/features/doctor/layout/chatbot/data/data_sources/doc_chatbot_data_source.dart'
-    as _i886;
-import 'package:chefaa/features/doctor/layout/chatbot/data/data_sources/doc_chatbot_data_source_imp.dart'
-    as _i450;
-import 'package:chefaa/features/doctor/layout/chatbot/data/repositories/doc_chatbot_repo_imp.dart'
-    as _i733;
-import 'package:chefaa/features/doctor/layout/chatbot/domain/repositories/doc_chatbot_repo.dart'
-    as _i615;
-import 'package:chefaa/features/doctor/layout/chatbot/presentation/manager/doc_chatbot_cubit.dart'
-    as _i468;
-import 'package:chefaa/features/doctor/layout/daily_brief/data/data_sources/brief_data_source.dart'
-    as _i394;
-import 'package:chefaa/features/doctor/layout/daily_brief/data/data_sources/brief_data_source_imp.dart'
-    as _i107;
-import 'package:chefaa/features/doctor/layout/daily_brief/data/repositories/brief_repo_imp.dart'
-    as _i315;
-import 'package:chefaa/features/doctor/layout/daily_brief/domain/repositories/brief_repo.dart'
-    as _i131;
-import 'package:chefaa/features/doctor/layout/daily_brief/presentation/manager/brief_cubit.dart'
-    as _i771;
-import 'package:chefaa/features/doctor/layout/home/data/data_sources/clinic_data_source.dart'
-    as _i536;
-import 'package:chefaa/features/doctor/layout/home/data/data_sources/clinic_data_source_imp.dart'
-    as _i602;
-import 'package:chefaa/features/doctor/layout/home/data/repositories/clinic_repo_imp.dart'
-    as _i440;
-import 'package:chefaa/features/doctor/layout/home/domain/repositories/clinic_repo.dart'
-    as _i791;
-import 'package:chefaa/features/doctor/layout/home/presentation/manager/clinic_cubit.dart'
-    as _i69;
-import 'package:chefaa/features/doctor/layout/patients/data/data_sources/patients_data_source.dart'
-    as _i991;
-import 'package:chefaa/features/doctor/layout/patients/data/data_sources/patients_data_source_imp.dart'
-    as _i120;
-import 'package:chefaa/features/doctor/layout/patients/data/repositories/patients_repo_imp.dart'
-    as _i404;
-import 'package:chefaa/features/doctor/layout/patients/domain/repositories/patients_repo.dart'
-    as _i634;
-import 'package:chefaa/features/doctor/layout/patients/presentation/manager/patients_cubit.dart'
-    as _i857;
+import 'package:chefaa/features/doctor/chatbot/data/data_sources/doc_chatbot_data_source.dart'
+    as _i348;
+import 'package:chefaa/features/doctor/chatbot/data/data_sources/doc_chatbot_data_source_imp.dart'
+    as _i352;
+import 'package:chefaa/features/doctor/chatbot/data/repositories/doc_chatbot_repo_imp.dart'
+    as _i761;
+import 'package:chefaa/features/doctor/chatbot/domain/repositories/doc_chatbot_repo.dart'
+    as _i858;
+import 'package:chefaa/features/doctor/chatbot/presentation/manager/doc_chatbot_cubit.dart'
+    as _i817;
+import 'package:chefaa/features/doctor/daily_brief/data/data_sources/brief_data_source.dart'
+    as _i813;
+import 'package:chefaa/features/doctor/daily_brief/data/data_sources/brief_data_source_imp.dart'
+    as _i913;
+import 'package:chefaa/features/doctor/daily_brief/data/repositories/brief_repo_imp.dart'
+    as _i705;
+import 'package:chefaa/features/doctor/daily_brief/domain/repositories/brief_repo.dart'
+    as _i350;
+import 'package:chefaa/features/doctor/daily_brief/presentation/manager/brief_cubit.dart'
+    as _i370;
+import 'package:chefaa/features/doctor/home/data/data_sources/clinic_data_source.dart'
+    as _i336;
+import 'package:chefaa/features/doctor/home/data/data_sources/clinic_data_source_imp.dart'
+    as _i798;
+import 'package:chefaa/features/doctor/home/data/repositories/clinic_repo_imp.dart'
+    as _i549;
+import 'package:chefaa/features/doctor/home/domain/repositories/clinic_repo.dart'
+    as _i729;
+import 'package:chefaa/features/doctor/home/presentation/manager/clinic_cubit.dart'
+    as _i1072;
+import 'package:chefaa/features/doctor/patients/data/data_sources/patients_data_source.dart'
+    as _i324;
+import 'package:chefaa/features/doctor/patients/data/data_sources/patients_data_source_imp.dart'
+    as _i259;
+import 'package:chefaa/features/doctor/patients/data/repositories/patients_repo_imp.dart'
+    as _i84;
+import 'package:chefaa/features/doctor/patients/domain/repositories/patients_repo.dart'
+    as _i289;
+import 'package:chefaa/features/doctor/patients/presentation/manager/patients_cubit.dart'
+    as _i200;
 import 'package:chefaa/features/doctor/profile/data/data_sources/local_data_source/doctor_profile_local_data_source.dart'
     as _i1011;
 import 'package:chefaa/features/doctor/profile/data/data_sources/local_data_source/doctor_profile_local_data_source_imp.dart'
@@ -401,12 +401,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i654.DashboardRemoteSourceImpl(gh<_i492.NetworkService>()));
     gh.factory<_i326.OrdersListDataSource>(
         () => _i722.OrdersListDataSourceImp(gh<_i492.NetworkService>()));
-    gh.factory<_i886.DocChatbotDataSource>(() => _i450.DocChatbotDataSourceImp(
-        networkService: gh<_i492.NetworkService>()));
+    gh.factory<_i813.BriefDataSource>(() =>
+        _i913.BriefDataSourceImp(networkService: gh<_i492.NetworkService>()));
+    gh.factory<_i350.BriefRepo>(
+        () => _i705.BriefRepoImp(briefDataSource: gh<_i813.BriefDataSource>()));
     gh.factory<_i278.AIReportDataSource>(
         () => _i87.AIReportDataSourceImp(gh<_i492.NetworkService>()));
-    gh.factory<_i991.PatientsDataSource>(
-        () => _i120.PatientsDataSourceImp(gh<_i492.NetworkService>()));
     gh.factory<_i872.ServicesRemoteSource>(
         () => _i1044.ServicesRemoteSourceImpl(gh<_i492.NetworkService>()));
     gh.factory<_i929.PharmacyCubit>(
@@ -432,20 +432,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i617.AuthDataSourceImp(gh<_i492.NetworkService>()));
     gh.factory<_i502.PharmacyInventoryDataSource>(() =>
         _i103.PharmacyInventoryDataSourceImpl(gh<_i492.NetworkService>()));
-    gh.factory<_i536.ClinicDataSource>(
-        () => _i602.ClinicDataSourceImp(gh<_i492.NetworkService>()));
-    gh.factory<_i791.ClinicRepo>(
-        () => _i440.ClinicRepoImp(gh<_i536.ClinicDataSource>()));
-    gh.factory<_i394.BriefDataSource>(() =>
-        _i107.BriefDataSourceImp(networkService: gh<_i492.NetworkService>()));
+    gh.factory<_i348.DocChatbotDataSource>(() => _i352.DocChatbotDataSourceImp(
+        networkService: gh<_i492.NetworkService>()));
     gh.factory<_i774.LabSearchRemoteDataSource>(
         () => _i523.LabSearchRemoteDataSourceImpl(gh<_i492.NetworkService>()));
     gh.factory<_i170.PharmacyProfileDataSource>(
         () => _i194.PharmacyProfileDataSourceImpl(gh<_i492.NetworkService>()));
     gh.factory<_i477.DoctorProfileRemoteDataSource>(() =>
         _i304.DoctorProfileRemoteDataSourceImp(gh<_i492.NetworkService>()));
-    gh.factory<_i69.ClinicCubit>(
-        () => _i69.ClinicCubit(gh<_i791.ClinicRepo>()));
     gh.factory<_i638.PharmacyRemoteDataSource>(
         () => _i790.PharmacyRemoteDataSourceImp(gh<_i492.NetworkService>()));
     gh.factory<_i246.OnlinePaymentDataSource>(
@@ -456,6 +450,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i818.PharmacyInventoryRepoImpl(
             pharmacyInventoryDataSource:
                 gh<_i502.PharmacyInventoryDataSource>()));
+    gh.factory<_i324.PatientsDataSource>(
+        () => _i259.PatientsDataSourceImp(gh<_i492.NetworkService>()));
     gh.factory<_i643.PatientRepo>(
         () => _i406.PatientRepoImp(gh<_i222.PatientDataSource>()));
     gh.factory<_i871.AiReportCubit>(
@@ -472,12 +468,14 @@ extension GetItInjectableX on _i174.GetIt {
         _i321.AppointmentRemoteDataSourceImpl(gh<_i492.NetworkService>()));
     gh.factory<_i678.ServicesRepository>(
         () => _i471.ServicesRepositoryImpl(gh<_i872.ServicesRemoteSource>()));
+    gh.factory<_i289.PatientsRepo>(
+        () => _i84.PatientsRepoImp(gh<_i324.PatientsDataSource>()));
     gh.factory<_i480.DoctorAuthDataSource>(
         () => _i327.DoctorAuthDataSourceImp(gh<_i492.NetworkService>()));
     gh.factory<_i555.PharmacyInventoryCubit>(
         () => _i555.PharmacyInventoryCubit(gh<_i921.PharmacyInventoryRepo>()));
-    gh.factory<_i615.DocChatbotRepo>(() => _i733.DocChatbotRepoImp(
-        docChatbotDataSource: gh<_i886.DocChatbotDataSource>()));
+    gh.factory<_i336.ClinicDataSource>(
+        () => _i798.ClinicDataSourceImp(gh<_i492.NetworkService>()));
     gh.factory<_i684.BookingRepo>(
         () => _i526.BookingRepoImp(gh<_i379.BookingRemoteDataSource>()));
     gh.factory<_i88.PatientCubit>(() => _i88.PatientCubit(
@@ -491,14 +489,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i410.ProfileRemoteSourceImpl(gh<_i492.NetworkService>()));
     gh.factory<_i542.CompleteDataSource>(() => _i645.CompleteDataSourceImp(
         networkService: gh<_i492.NetworkService>()));
-    gh.factory<_i131.BriefRepo>(
-        () => _i315.BriefRepoImp(briefDataSource: gh<_i394.BriefDataSource>()));
     gh.factory<_i197.DoctorAuthRepo>(
         () => _i685.DoctorAuthRepoImp(gh<_i480.DoctorAuthDataSource>()));
     gh.factory<_i213.TrackOrderRepo>(
         () => _i516.TrackOrderRepoImpl(gh<_i85.TrackOrderDataSource>()));
-    gh.factory<_i468.DocChatbotCubit>(() =>
-        _i468.DocChatbotCubit(docChatbotRepo: gh<_i615.DocChatbotRepo>()));
     gh.factory<_i1041.FacilityAuthRepo>(
         () => _i966.FacilityAuthRepoImpl(gh<_i959.FacilityAuthDataSource>()));
     gh.factory<_i747.LabResultsRepository>(() =>
@@ -507,12 +501,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i683.FacilityAuthCubit(gh<_i1041.FacilityAuthRepo>()));
     gh.factory<_i216.OnlinePaymentRepo>(
         () => _i477.OnlinePaymentRepoImpl(gh<_i246.OnlinePaymentDataSource>()));
+    gh.factory<_i200.PatientsCubit>(
+        () => _i200.PatientsCubit(gh<_i289.PatientsRepo>()));
     gh.factory<_i84.DashboardRepository>(
         () => _i704.DashboardRepositoryImpl(gh<_i572.DashboardRemoteSource>()));
     gh.factory<_i116.AuthRepo>(
         () => _i479.AuthRepoImp(gh<_i970.AuthDataSource>()));
-    gh.factory<_i634.PatientsRepo>(
-        () => _i404.PatientsRepoImp(gh<_i991.PatientsDataSource>()));
     gh.factory<_i37.HomeRepo>(
         () => _i705.HomeRepoImp(gh<_i1041.HomeDataSource>()));
     gh.factory<_i307.PatientNotificatorRepo>(() =>
@@ -523,12 +517,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1070.ProfileRepoImpl(gh<_i414.ProfileRemoteDataSource>()));
     gh.factory<_i668.PharmacyProfileRepo>(() => _i954.PharmacyProfileRepoImpl(
         pharmacyProfileDataSource: gh<_i170.PharmacyProfileDataSource>()));
+    gh.factory<_i729.ClinicRepo>(
+        () => _i549.ClinicRepoImp(gh<_i336.ClinicDataSource>()));
     gh.factory<_i306.OrdersListRepo>(
         () => _i150.OrdersListRepoImpl(gh<_i326.OrdersListDataSource>()));
     gh.factory<_i378.PharmacyChatbotRepo>(() => _i476.PharmacyChatbotRepoImpl(
         pharmacyChatbotDataSource: gh<_i106.PharmacyChatbotDataSource>()));
     gh.factory<_i588.CompletePatientRepo>(() => _i623.CompletePatientRepoImp(
         completeDataSource: gh<_i542.CompleteDataSource>()));
+    gh.factory<_i370.BriefCubit>(
+        () => _i370.BriefCubit(briefRepo: gh<_i350.BriefRepo>()));
     gh.factory<_i765.ChatbotRepo>(
         () => _i986.ChatbotRepoImp(gh<_i581.ChatbotRemoteDataSource>()));
     gh.factory<_i418.ProfileCubit>(
@@ -541,6 +539,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i266.SearchRemoteDataSource>(),
           gh<_i272.SearchLocalDataSource>(),
         ));
+    gh.factory<_i858.DocChatbotRepo>(() => _i761.DocChatbotRepoImp(
+        docChatbotDataSource: gh<_i348.DocChatbotDataSource>()));
     gh.factory<_i157.MedicationRepo>(
         () => _i600.MedicationRepoImp(gh<_i709.MedicationDataSource>()));
     gh.factory<_i813.ServicesCubit>(
@@ -557,6 +557,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i594.TrackOrderCubit(gh<_i213.TrackOrderRepo>()));
     gh.factory<_i800.PaymentCubit>(
         () => _i800.PaymentCubit(gh<_i216.OnlinePaymentRepo>()));
+    gh.factory<_i1072.ClinicCubit>(
+        () => _i1072.ClinicCubit(gh<_i729.ClinicRepo>()));
     gh.factory<_i977.LabResultsCubit>(
         () => _i977.LabResultsCubit(gh<_i747.LabResultsRepository>()));
     gh.factory<_i816.SearchCubit>(
@@ -573,15 +575,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i291.GetDoctorDataUseCase(gh<_i353.DoctorProfileRepo>()));
     gh.factory<_i619.UpdateDoctorDataUseCase>(
         () => _i619.UpdateDoctorDataUseCase(gh<_i353.DoctorProfileRepo>()));
-    gh.factory<_i771.BriefCubit>(
-        () => _i771.BriefCubit(briefRepo: gh<_i131.BriefRepo>()));
     gh.factory<_i481.ProfileRepository>(
         () => _i928.ProfileRepositoryImpl(gh<_i987.ProfileRemoteSource>()));
     gh.factory<_i476.PatientNotificationCubit>(() =>
         _i476.PatientNotificationCubit(
             patientNotificatorRepo: gh<_i307.PatientNotificatorRepo>()));
-    gh.factory<_i857.PatientsCubit>(
-        () => _i857.PatientsCubit(gh<_i634.PatientsRepo>()));
     gh.factory<_i59.OrdersListCubit>(
         () => _i59.OrdersListCubit(gh<_i306.OrdersListRepo>()));
     gh.factory<_i658.PharmacyProfileCubit>(
@@ -604,6 +602,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i111.DashboardCubit>(
         () => _i111.DashboardCubit(gh<_i84.DashboardRepository>()));
+    gh.factory<_i817.DocChatbotCubit>(() =>
+        _i817.DocChatbotCubit(docChatbotRepo: gh<_i858.DocChatbotRepo>()));
     gh.factory<_i216.LabSearchCubit>(
         () => _i216.LabSearchCubit(gh<_i817.LabSearchRepo>()));
     gh.factory<_i941.PharmacyChatbotCubit>(

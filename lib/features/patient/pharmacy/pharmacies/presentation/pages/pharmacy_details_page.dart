@@ -1,32 +1,28 @@
 import 'package:chefaa/core/config/get_config.dart';
 import 'package:chefaa/core/resources/assets_manager.dart';
-import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/map_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/widgets/inside_app_bar.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/data/models/pharmacy_card_model.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/data/models/pharmacy_profile_model.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/manager/pharmacy_profile_cubit.dart';
+import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/manager/pharmacy_review_cubit.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/action_button_card.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/horizontal_info_badge.dart';
+import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/map_card.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/pharmacy_header_card.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/premium_card_decoration.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/section_title.dart';
 import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/widgets/service_row.dart';
-
-import 'package:chefaa/features/patient/pharmacy/medicines/presentation/pages/pharmacy_medicines_page.dart';
-import 'package:chefaa/features/patient/pharmacy/pharmacies/presentation/manager/pharmacy_review_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:chefaa/core/routes/app_routes_names.dart';
 
 class PharmacyDetailsPage extends StatelessWidget {
   final PharmacyCardModel pharmacy;
 
-  const PharmacyDetailsPage({
-    super.key,
-    required this.pharmacy,
-  });
+  const PharmacyDetailsPage({super.key, required this.pharmacy});
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +45,7 @@ class PharmacyDetailsPage extends StatelessWidget {
           builder: (context, state) {
             if (state is PharmacyProfileLoading) {
               return const Center(
-                child: CircularProgressIndicator(
-                  color: ColorManager.primary,
-                ),
+                child: CircularProgressIndicator(color: ColorManager.primary),
               );
             } else if (state is PharmacyProfileFailure) {
               return Center(
@@ -102,11 +96,13 @@ class PharmacyDetailsPage extends StatelessWidget {
             } else if (state is PharmacyProfileSuccess) {
               final PharmacyProfileModel profile = state.pharmacyProfile;
 
-              final double profileLat = profile.location != null &&
+              final double profileLat =
+                  profile.location != null &&
                       profile.location!.coordinates.length >= 2
                   ? profile.location!.coordinates[1]
                   : 30.0444;
-              final double profileLng = profile.location != null &&
+              final double profileLng =
+                  profile.location != null &&
                       profile.location!.coordinates.length >= 2
                   ? profile.location!.coordinates[0]
                   : 31.2357;
@@ -114,13 +110,15 @@ class PharmacyDetailsPage extends StatelessWidget {
               final String workingHoursText = profile.alwaysOpen
                   ? "24/7 Service"
                   : (profile.workingHours.isNotEmpty
-                      ? "${profile.workingHours[0].days}: ${profile.workingHours[0].time}"
-                      : "Closed");
+                        ? "${profile.workingHours[0].days}: ${profile.workingHours[0].time}"
+                        : "Closed");
 
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -149,14 +147,16 @@ class PharmacyDetailsPage extends StatelessWidget {
                       label: "View Medicines",
                       color: ColorManager.primary,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => PharmacyMedicinesPage(
-                              pharmacyName: profile.pharmacyName,
-                              pharmacyId: profile.id,
-                            ),
-                          ),
+                        context.push(
+                          AppRoutesNames.pharmacyMedicines,
+                          extra: {
+                            'pharmacyName': profile.pharmacyName.isNotEmpty
+                                ? profile.pharmacyName
+                                : pharmacy.name,
+                            'pharmacyId': profile.id.isNotEmpty
+                                ? profile.id
+                                : pharmacy.id,
+                          },
                         );
                       },
                     ),
@@ -266,7 +266,7 @@ class PharmacyDetailsPage extends StatelessWidget {
                                   "Covers multi-national governmental & corporate health cards.",
                               color: ColorManager.gold,
                             ),
-                          ]
+                          ],
                         ],
                       ),
                     ),
@@ -304,16 +304,16 @@ class PharmacyDetailsPage extends StatelessWidget {
           child: BlocConsumer<PharmacyReviewCubit, PharmacyReviewState>(
             listener: (context, state) {
               if (state is PharmacyReviewSuccess) {
-                Navigator.pop(context);
+                context.pop();
                 ScaffoldMessenger.of(parentContext).showSnackBar(
                   const SnackBar(
                     content: Text("Review added successfully!"),
                     backgroundColor: ColorManager.primary,
                   ),
                 );
-                parentContext
-                    .read<PharmacyProfileCubit>()
-                    .getPharmacyProfile(pharmacyId);
+                parentContext.read<PharmacyProfileCubit>().getPharmacyProfile(
+                  pharmacyId,
+                );
               } else if (state is PharmacyReviewFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -366,7 +366,7 @@ class PharmacyDetailsPage extends StatelessWidget {
                       TextButton(
                         onPressed: state is PharmacyReviewLoading
                             ? null
-                            : () => Navigator.pop(context),
+                            : () => context.pop(),
                         child: const Text("Cancel"),
                       ),
                       ElevatedButton(
@@ -393,8 +393,10 @@ class PharmacyDetailsPage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text("Submit",
-                                style: TextStyle(color: Colors.white)),
+                            : const Text(
+                                "Submit",
+                                style: TextStyle(color: Colors.white),
+                              ),
                       ),
                     ],
                   );

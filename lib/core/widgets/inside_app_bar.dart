@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class InsideAppBar extends StatelessWidget {
   final String title;
@@ -37,7 +38,7 @@ class InsideAppBar extends StatelessWidget {
       title: Row(
         children: [
           IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             icon: !isLayout
                 ? Icon(
                     Icons.arrow_back_ios_new_outlined,

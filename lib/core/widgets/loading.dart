@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:chefaa/core/resources/color_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class Loading {
   static bool _isLoading = false;
@@ -31,7 +32,7 @@ class Loading {
 
   static void hide(BuildContext context) {
     if (_isLoading && context.mounted) {
-      Navigator.pop(context);
+      context.pop();
       _isLoading = false;
     }
   }

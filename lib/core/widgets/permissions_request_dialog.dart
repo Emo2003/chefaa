@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart'
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
 import 'package:chefaa/core/services/permissions_service.dart';
+import 'package:go_router/go_router.dart';
 
 class PermissionsRequestDialog extends StatefulWidget {
   final Function(Map<String, permission_handler.PermissionStatus>)?
@@ -244,7 +245,7 @@ class _PermissionsRequestDialogState extends State<PermissionsRequestDialog> {
                         onPressed: isLoading
                             ? null
                             : () {
-                          Navigator.pop(context, permissionsStatus);
+                          context.pop(permissionsStatus);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorManager.primary,

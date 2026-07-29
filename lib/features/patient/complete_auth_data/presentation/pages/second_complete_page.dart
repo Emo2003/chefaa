@@ -1,15 +1,15 @@
+import 'package:chefaa/core/resources/color_manager.dart';
+import 'package:chefaa/core/resources/constants_manager.dart';
+import 'package:chefaa/core/resources/values_manager.dart';
+import 'package:chefaa/core/routes/app_routes_names.dart';
 import 'package:chefaa/core/widgets/custom_btn.dart';
 import 'package:chefaa/core/widgets/custom_text_field.dart';
+import 'package:chefaa/features/patient/complete_auth_data/presentation/manager/complete_cubit.dart';
 import 'package:chefaa/features/patient/complete_auth_data/presentation/widgets/complete_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:chefaa/core/resources/color_manager.dart';
-import 'package:chefaa/core/resources/constants_manager.dart';
-import 'package:chefaa/core/resources/values_manager.dart';
-import 'package:chefaa/features/patient/complete_auth_data/presentation/manager/complete_cubit.dart';
-import 'last_complete_data.dart';
+import 'package:go_router/go_router.dart';
 
 class SecondCompletePage extends StatefulWidget {
   const SecondCompletePage({super.key});
@@ -41,70 +41,75 @@ class _SecondCompletePageState extends State<SecondCompletePage> {
                   isList: false,
                   child: Padding(
                     padding: const EdgeInsets.only(top: AppPadding.p8),
-                    child: BlocSelector<CompleteCubit, CompleteState, List<String>>(
-                      selector: (state) => state.chronicConditions,
-                      builder: (context, chronicConditions) {
-                        return ListView.separated(
-                          itemCount: AppConstants.chronicConditions.length,
-                          separatorBuilder: (context, index) => Divider(
-                            indent: 10.w,
-                            endIndent: 12.w,
-                            color: Colors.grey.shade300,
-                            thickness: 2,
-                            height: 0.h,
-                          ),
-                          itemBuilder: (context, index) {
-                            final disease =
-                                AppConstants.chronicConditions[index];
-                            final isSelected = chronicConditions.contains(
-                              disease,
-                            );
-                            return GestureDetector(
-                              onTap: () => context
-                                  .read<CompleteCubit>()
-                                  .toggleChronicConditions(disease),
-                              child: Container(
-                                width: double.infinity,
-                                height: 50.h,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                  horizontal: 16.w,
-                                ),
-                                margin: EdgeInsets.symmetric(vertical: 3.h),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? ColorManager.gray.withValues(
-                                          alpha: 0.35,
-                                        )
-                                      : ColorManager.transparent,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  boxShadow: isSelected
-                                      ? [
-                                          BoxShadow(
-                                            color: Colors.black.withValues(
-                                              alpha: 0.2,
-                                            ),
-                                            blurRadius: 4,
-                                            offset: const Offset(0, 4),
-                                          ),
-                                        ]
-                                      : [],
-                                ),
-                                child: Text(
-                                  disease,
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorManager.black,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                    child:
+                        BlocSelector<
+                          CompleteCubit,
+                          CompleteState,
+                          List<String>
+                        >(
+                          selector: (state) => state.chronicConditions,
+                          builder: (context, chronicConditions) {
+                            return ListView.separated(
+                              itemCount: AppConstants.chronicConditions.length,
+                              separatorBuilder: (context, index) => Divider(
+                                indent: 10.w,
+                                endIndent: 12.w,
+                                color: Colors.grey.shade300,
+                                thickness: 2,
+                                height: 0.h,
                               ),
+                              itemBuilder: (context, index) {
+                                final disease =
+                                    AppConstants.chronicConditions[index];
+                                final isSelected = chronicConditions.contains(
+                                  disease,
+                                );
+                                return GestureDetector(
+                                  onTap: () => context
+                                      .read<CompleteCubit>()
+                                      .toggleChronicConditions(disease),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 50.h,
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.h,
+                                      horizontal: 16.w,
+                                    ),
+                                    margin: EdgeInsets.symmetric(vertical: 3.h),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? ColorManager.gray.withValues(
+                                              alpha: 0.35,
+                                            )
+                                          : ColorManager.transparent,
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      boxShadow: isSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withValues(
+                                                  alpha: 0.2,
+                                                ),
+                                                blurRadius: 4,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ]
+                                          : [],
+                                    ),
+                                    child: Text(
+                                      disease,
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: ColorManager.black,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                    ),
+                        ),
                   ),
                 ),
               ),
@@ -122,14 +127,9 @@ class _SecondCompletePageState extends State<SecondCompletePage> {
                 onPressed: () {
                   final cubit = CompleteCubit.get(context);
                   cubit.addCustomChronicDisease(controller.text);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => BlocProvider.value(
-                        value: CompleteCubit.get(context),
-                        child: const LastCompleteData(),
-                      ),
-                    ),
+                  context.push(
+                    AppRoutesNames.patientSignUpCompleteMedicines,
+                    extra: CompleteCubit.get(context),
                   );
                 },
               ),
@@ -141,4 +141,3 @@ class _SecondCompletePageState extends State<SecondCompletePage> {
     );
   }
 }
-

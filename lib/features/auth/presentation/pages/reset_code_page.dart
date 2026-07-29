@@ -13,6 +13,7 @@ import 'package:chefaa/core/widgets/custom_btn.dart';
 import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:chefaa/features/auth/presentation/widgets/back_button.dart';
+import 'package:go_router/go_router.dart';
 
 class ResetCode extends StatefulWidget {
   const ResetCode({super.key, required this.index});
@@ -48,7 +49,7 @@ class _ResetCodeState extends State<ResetCode> {
             Loading.show(context);
           } else if (state is ResetCodeSuccessState) {
             Loading.hide(context);
-            Navigator.pushNamed(context, AppRoutesNames.resetPassword);
+            context.push(AppRoutesNames.resetPassword);
           } else if (state is ResetCodeErrorState) {
             Loading.hide(context);
             _showErrorDialog(

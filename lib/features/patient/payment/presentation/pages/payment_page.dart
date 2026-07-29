@@ -5,12 +5,14 @@ import 'package:chefaa/core/resources/constants_manager.dart';
 import 'package:chefaa/core/widgets/inside_app_bar.dart';
 import 'package:chefaa/core/widgets/loading.dart';
 import 'package:chefaa/features/patient/cart/presentation/widgets/order_summary_card.dart';
-import 'package:chefaa/features/patient/order/presentation/pages/track_order_page.dart';
 import 'package:chefaa/features/patient/payment/presentation/manager/payment_cubit.dart';
 import 'package:chefaa/features/patient/payment/presentation/widgets/card_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/routes/app_routes_names.dart';
 
 class PaymentPage extends StatefulWidget {
   final String orderId;
@@ -69,14 +71,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 type: AnimatedSnackBarType.success,
                 brightness: Brightness.dark,
               ).show(context);
-
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TrackOrderPage(orderId: widget.orderId),
-                ),
-                (route) => false,
-              );
+              context.go(AppRoutesNames.trackOrderPage.replaceFirst(':orderId', widget.orderId));
             } else if (state is PaymentFailure) {
               Loading.hide(context);
               if (state.message == "This order is already paid.") {
@@ -86,14 +81,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   type: AnimatedSnackBarType.success,
                   brightness: Brightness.dark,
                 ).show(context);
-
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => TrackOrderPage(orderId: widget.orderId),
-                  ),
-                  (route) => false,
-                );
+                context.go(AppRoutesNames.trackOrderPage.replaceFirst(':orderId', widget.orderId));
               } else {
                 AnimatedSnackBar.rectangle(
                   AppConstants.error,
@@ -142,7 +130,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         "cvv": cvv.text.trim(),
                       };
 
-                      context.read<PaymentCubit>().processOnlinePayment(paymentData);
+                      context.read<PaymentCubit>().processOnlinePayment(
+                        paymentData,
+                      );
                     },
                     btnTitle: "Payment Now",
                   ),

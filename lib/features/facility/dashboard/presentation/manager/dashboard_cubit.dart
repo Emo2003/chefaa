@@ -34,7 +34,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     required String requestId,
     required String filePath,
   }) async {
-      print("Cubit upload requestId = $requestId");
+      debugPrint("Cubit upload requestId = $requestId");
       if (!isClosed) emit(UploadResultLoading(requestId: requestId));
     try {
       final response = await _dashboardRepository.uploadResult(

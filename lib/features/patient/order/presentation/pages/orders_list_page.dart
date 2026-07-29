@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:chefaa/core/resources/styles_manager.dart';
@@ -204,11 +205,7 @@ class _OrdersListPageState extends State<OrdersListPage>
                   return OrderListCard(
                     order: order,
                     onTrack: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutesNames.trackOrderPage,
-                        arguments: order.id,
-                      );
+                      context.push(AppRoutesNames.trackOrderPage.replaceFirst(':orderId', order.id.toString()));
                     },
                   );
                 },

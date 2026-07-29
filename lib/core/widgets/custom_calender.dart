@@ -2,6 +2,7 @@ import 'package:chefaa/core/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomCalendarField extends StatefulWidget {
   final TextEditingController controller;
@@ -134,7 +135,7 @@ class _CustomCalendarFieldState extends State<CustomCalendarField> {
         DateTime selectedDate = args.value;
         widget.controller.text = DateFormat('dd-MM-yyyy').format(selectedDate);
         widget.onDateSelected(selectedDate);
-        Navigator.pop(context);
+        context.pop();
       },
     );
   }
