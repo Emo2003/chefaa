@@ -22,13 +22,29 @@ Connecting Patients, Doctors, Pharmacies, and Facilities in one unified, role-ba
 
 <br>
 
+## Table of Contents
+
+- [About the Project](#about-the-project)
+- [Feature Overview](#feature-overview)
+- [AI Capabilities](#ai-capabilities)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Architecture](#architecture)
+- [Application Flow](#application-flow)
+- [API Integration](#api-integration)
+- [Getting Started](#getting-started)
+- [Project Goals](#project-goals)
+- [Team](#team)
+
+<br>
+
 ---
 
 ## About the Project
 
 Chefaa is a Flutter mobile application that unifies four healthcare user roles — Patients, Doctors, Pharmacies, and Facilities — inside a single, role-aware app. It consumes a REST backend for authentication, appointments, prescriptions, medication tracking, pharmacy ordering, and facility discovery, and layers AI-assisted features — lab report analysis, a conversational health assistant, and smart lab recommendations — on top of a fast, clean, and fully localized native experience.
 
-The application follows a feature-based clean architecture, with a dedicated module per role, shared infrastructure for cross-cutting concerns such as file handling, and dependency injection wiring the layers together.
+The application follows a feature-based clean architecture. Each role (Patient, Doctor, Pharmacy, Facility) is implemented as an independent set of feature modules under `lib/features/`, with shared infrastructure for cross-cutting concerns such as file handling, and dependency injection wiring the layers together.
 
 <br>
 
@@ -41,32 +57,56 @@ The application follows a feature-based clean architecture, with a dedicated mod
 - Full Arabic / English localization
 - Registration and login with OTP verification and Google Sign-In
 - Email validation, forgot / reset password, and secure session storage
+- A dedicated `auth` module exists inside every role (`patient`, `doctor`, `pharmacy`, `facility`), alongside a shared `complete_auth_data` step for finishing account setup after sign-up
 
 ### Patient Module
-- Home dashboard with personalized greeting, quick doctor/specialty search, today's medication status, latest lab results, and upcoming appointments
-- Appointment booking through a multi-step flow: visit type selection (in-clinic or video call), date and time via calendar picker, consultation fee review, and payment by credit card or cash
-- Appointment history with upcoming, completed, and cancelled states, including cancel, reschedule, and join-now actions
-- Medication tracker ("My Medications") for adding medications with dosage, form, and daily dose schedule, with adherence percentage tracking and upcoming-dose reminders
-- Medicine catalog with verified clinical monographs per medicine, including usage instructions (standard dose, dosing interval, 24-hour limit), clinical indications, and a chemical profile (ATC classification, bioavailability, plasma half-life, excretion pathway)
-- Document and lab report uploads (JPEG, PNG, PDF, MP4) for AI analysis
+The patient role is the most extensive module in the codebase, organized into the following feature areas:
+
+| Module | Responsibility |
+|---|---|
+| `home` | Personalized dashboard — greeting, quick doctor/specialty search, today's medication status, latest lab results, and upcoming appointments |
+| `appointment` / `booking` | Multi-step appointment booking (visit type, date/time, consultation fee, payment) and appointment history management |
+| `medication` | Medication tracker with dosage, form, schedule, and adherence tracking |
+| `ai_lab` / `lab_results` / `lab_search` | AI-powered lab report upload and analysis, plus discovery of nearby labs and radiology centers |
+| `pharmacy` / `search` | In-app pharmacy and medicine discovery |
+| `cart` | Shopping cart for medicine orders |
+| `checkout_order` | Delivery details, payment method selection, and order confirmation |
+| `order` / `payment` | Order tracking and payment processing |
+| `chatbot` | The Chefaa Assistant conversational AI |
+| `notification` | In-app notifications and alerts |
+| `profile` | Patient profile and account management |
+| `layout` | Shared navigation shell and page scaffolding for the patient role |
 
 ### Doctor Module
-- Doctor profile dashboard showing clinic count, response score, review count, and years of experience, with profile-completion prompts
-- Clinic management ("My Clinics") for adding clinics and tracking approval status and daily open/closed state
-- Bio, degrees and certifications, and direct-contact information management
-- Patient results management for uploading and reviewing lab files, reading AI-generated health insights, and attaching doctor's notes
-- Data visualization for schedules and performance analytics
+| Module | Responsibility |
+|---|---|
+| `home` | Doctor dashboard — clinic count, response score, review count, and years of experience, with profile-completion prompts |
+| `daily_brief` | A daily summary view for the doctor's schedule and priorities |
+| `patients` | Patient results management — uploading and reviewing lab files, reading AI-generated health insights, and attaching doctor's notes |
+| `chatbot` | AI assistant support on the doctor side |
+| `profile` | Bio, degrees and certifications, and direct-contact information management |
+| `layout` | Shared navigation shell for the doctor role |
 
 ### Pharmacy Module
-- Pharmacy discovery with search by pharmacies or medicines, filtering by nearby options, and browsing ratings, delivery time, and catalog size per pharmacy
-- Pharmacy detail pages showing open/closed status, insurance and prescription acceptance, opening hours, average delivery time, available services (express delivery, prescription preparation, insurance support), and map location
-- Checkout flow with delivery method selection, delivery information form, payment method (cash on delivery or online payment), and an itemized order summary
-- Live order tracking showing delivery progress (confirmed, preparing, picked up, on the way) with delivery-agent details and estimated arrival time
+| Module | Responsibility |
+|---|---|
+| `home` | Pharmacy dashboard overview |
+| `inventory` | Medicine inventory management |
+| `orders` | Incoming order management and live order-status updates |
+| `chatbot` | AI assistant support on the pharmacy side |
+| `profile` | Pharmacy profile, hours, and contact details |
+| `settings` | Pharmacy account and app settings |
+| `layout` | Shared navigation shell for the pharmacy role |
 
-### Facility Discovery
-- Map-based facility, clinic, and lab browsing with current-location detection
-- Geocoding, location permissions, and custom map markers for facility pins
-- AI-recommended labs, ranking nearby labs and radiology centers by relevance, pricing, and rating
+### Facility Module
+| Module | Responsibility |
+|---|---|
+| `dashboard` | Facility overview dashboard |
+| `services` | Management of facility services and offerings |
+| `profile` | Facility profile and details |
+| `layout` | Shared navigation shell for the facility role |
+
+Facility and lab locations are additionally surfaced through map-based discovery, with current-location detection, geocoding, location permissions, and custom map markers.
 
 ### Shared File Handling
 - Centralized file picking and upload state (`FileHandlerCubit`), reused across the Patient, Doctor, and Pharmacy modules for reports, prescriptions, and images
@@ -80,7 +120,7 @@ The application follows a feature-based clean architecture, with a dedicated mod
 | Feature | Description |
 |---|---|
 | AI Lab Report Analysis | Parses uploaded lab results, flags abnormal values, visualizes overall risk on a gauge chart, and generates a plain-language health summary with recommended next steps |
-| Chefaa Assistant | An in-app conversational chatbot patients can use to ask about medications or request a live pharmacist, with quick-action shortcuts |
+| Chefaa Assistant | An in-app conversational chatbot — available to patients, doctors, and pharmacies — used to ask about medications, request a live pharmacist, or get quick support |
 | AI-Recommended Labs | Ranks nearby labs and radiology centers by relevance, pricing, and quality when a patient searches for diagnostic services |
 | AI Health Insight (Doctor Side) | Surfaces AI-generated diagnostic mapping alongside uploaded patient results, allowing doctors to review AI findings next to their own notes |
 
@@ -121,14 +161,59 @@ lib/
 │
 ├── features/
 │   ├── auth/
+│   │
+│   ├── patient/
+│   │   ├── auth/
+│   │   ├── complete_auth_data/
+│   │   ├── home/
+│   │   ├── appointment/
+│   │   ├── booking/
+│   │   ├── medication/
+│   │   ├── ai_lab/
+│   │   ├── lab_results/
+│   │   ├── lab_search/
+│   │   ├── pharmacy/
+│   │   ├── search/
+│   │   ├── cart/presentation/
+│   │   ├── checkout_order/presentation/
+│   │   ├── order/
+│   │   ├── payment/
+│   │   ├── chatbot/
+│   │   ├── notification/
+│   │   ├── profile/
+│   │   └── layout/presentation/pages/
+│   │
 │   ├── doctor/
+│   │   ├── auth/
+│   │   ├── home/
+│   │   ├── daily_brief/
+│   │   ├── patients/
+│   │   ├── chatbot/
+│   │   ├── profile/
+│   │   └── layout/
+│   │
+│   ├── pharmacy/
+│   │   ├── auth/
+│   │   ├── home/presentation/
+│   │   ├── inventory/
+│   │   ├── orders/presentation/
+│   │   ├── chatbot/
+│   │   ├── profile/
+│   │   ├── settings/
+│   │   └── layout/presentation/pages/
+│   │
+│   ├── facility/
+│   │   ├── auth/
+│   │   ├── dashboard/
+│   │   ├── services/
+│   │   ├── profile/
+│   │   └── layout/presentation/
+│   │
 │   ├── entry/
 │   │   └── presentation/
 │   │       └── pages/
-│   ├── facility/
-│   ├── onboarding/
-│   ├── patient/
-│   └── pharmacy/
+│   │
+│   └── onboarding/
 │
 ├── shared/
 │   └── file_handler/
@@ -142,7 +227,7 @@ lib/
 └── main.dart
 ```
 
-Each folder under `features/` is a self-contained module with its own presentation, domain, and data layers, so a role's screens, business logic, and API calls stay isolated from the other roles. `core/` holds app-wide utilities and configuration (theming, constants, network setup, error handling), while `shared/` holds cross-feature logic — currently the file handler used by the Patient, Doctor, and Pharmacy modules — so it is implemented once and reused rather than duplicated per role.
+Every role under `features/` is structured consistently: an `auth` module for role-specific sign-in, a `layout` module for the shared navigation shell, a `profile` module for account management, and a set of domain modules specific to that role (for example, `medication` and `checkout_order` for patients, `daily_brief` and `patients` for doctors, `inventory` and `orders` for pharmacies, and `dashboard` and `services` for facilities). `core/` holds app-wide utilities and configuration — theming, constants, network setup, and error handling — while `shared/` holds cross-feature logic, such as the file handler used by the Patient, Doctor, and Pharmacy modules, so it is implemented once and reused rather than duplicated per role.
 
 <br>
 
@@ -150,7 +235,7 @@ Each folder under `features/` is a self-contained module with its own presentati
 
 ## Architecture
 
-Chefaa follows a feature-based clean architecture, with one module per user role and shared infrastructure kept separate from feature logic.
+Chefaa follows a feature-based clean architecture, with one set of modules per user role and shared infrastructure kept separate from feature logic.
 
 ```mermaid
 graph TB
@@ -195,7 +280,7 @@ graph TB
 
 ### State Management
 
-State is managed with BLoC/Cubit (`flutter_bloc`), scoped per feature. Shared, cross-feature logic — such as file uploads used across the Patient, Doctor, and Pharmacy modules — lives in `shared/`, so it is not duplicated per role.
+State is managed with BLoC/Cubit (`flutter_bloc`), scoped per feature module. Shared, cross-feature logic — such as file uploads used across the Patient, Doctor, and Pharmacy modules — lives in `shared/`, so it is not duplicated per role.
 
 `FileHandlerCubit`, for example, centralizes file picking and upload state (`file_handler_cubit.dart` / `file_handler_state.dart`) and is reused wherever a screen needs to attach documents, reports, or images.
 
@@ -213,28 +298,33 @@ flowchart LR
     B --> C["Authentication (OTP / Google Sign-In)"]
     C --> D{Role}
     D -->|Patient| P["Patient Home"]
-    D -->|Doctor| Doc["Doctor Dashboard"]
-    D -->|Pharmacy| Ph["Pharmacy Dashboard"]
+    D -->|Doctor| Doc["Doctor Home"]
+    D -->|Pharmacy| Ph["Pharmacy Home"]
+    D -->|Facility| Fac["Facility Dashboard"]
 
-    P --> P1["Book Appointment"]
+    P --> P1["Booking / Appointment"]
     P --> P2["Medication Tracker"]
-    P --> P3["AI Lab Report Upload"]
-    P --> P4["Find Facility / Lab"]
-    P --> P5["Chefaa Assistant"]
-    P4 --> Order["Pharmacy Order & Checkout"]
-    Order --> Track["Live Order Tracking"]
+    P --> P3["AI Lab (Upload & Results)"]
+    P --> P4["Pharmacy Search"]
+    P --> P5["Chatbot"]
+    P4 --> Cart["Cart"]
+    Cart --> Checkout["Checkout Order"]
+    Checkout --> OrderTrack["Order Tracking / Payment"]
 
-    Doc --> Doc1["Manage Clinics"]
-    Doc --> Doc2["Review Patient Results"]
-    Doc --> Doc3["Schedule Analytics"]
+    Doc --> Doc1["Daily Brief"]
+    Doc --> Doc2["Patients (Results Review)"]
+    Doc --> Doc3["Chatbot"]
 
-    Ph --> Ph1["Manage Orders"]
-    Ph --> Ph2["Inventory Views"]
+    Ph --> Ph1["Inventory"]
+    Ph --> Ph2["Orders"]
+    Ph --> Ph3["Settings"]
+
+    Fac --> Fac1["Services"]
 
     style A fill:#02569B,color:#fff
     style C fill:#0175C2,color:#fff
     style D fill:#4285F4,color:#fff
-    style Track fill:#2ecc71,color:#fff
+    style OrderTrack fill:#2ecc71,color:#fff
 ```
 
 <br>
@@ -304,6 +394,7 @@ This project was built to:
 
 - Build a complete, role-based healthcare application using Flutter
 - Practice scalable state management with BLoC/Cubit across multiple user roles
+- Structure a large codebase into consistent, self-contained feature modules per role
 - Structure shared logic, such as file handling, separately from per-role features
 - Integrate maps and location services for real-world facility discovery
 - Layer AI-assisted tools — lab analysis, a chat assistant, and smart recommendations — onto core healthcare workflows
