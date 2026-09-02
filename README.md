@@ -22,22 +22,6 @@ Connecting Patients, Doctors, Pharmacies, and Facilities in one unified, role-ba
 
 <br>
 
-## Table of Contents
-
-- [About the Project](#about-the-project)
-- [Feature Overview](#feature-overview)
-- [AI Capabilities](#ai-capabilities)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Architecture](#architecture)
-- [Application Flow](#application-flow)
-- [API Integration](#api-integration)
-- [Getting Started](#getting-started)
-- [Project Goals](#project-goals)
-- [Team](#team)
-
-<br>
-
 ---
 
 ## About the Project
