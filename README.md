@@ -23,26 +23,6 @@
 
 <br>
 
-## 📌 Table of Contents
-
-- [Executive Summary](#-executive-summary)
-- [System Architecture & Design Patterns](#-system-architecture--design-patterns)
-- [Comprehensive Feature Breakdown by Role](#-comprehensive-feature-breakdown-by-role)
-  - [1. Shared Authentication & Onboarding](#1-shared-authentication--onboarding)
-  - [2. Patient Module](#2-patient-module)
-  - [3. Doctor Module](#3-doctor-module)
-  - [4. Pharmacy Module](#4-pharmacy-module)
-  - [5. Facility & Diagnostics Module](#5-facility--diagnostics-module)
-- [🤖 AI Engine Capabilities](#-ai-engine-capabilities)
-- [🗺 Application Flowchart](#-application-flowchart)
-- [🛠 Exhaustive Tech Stack & Package Matrix](#-exhaustive-tech-stack--package-matrix)
-- [📂 Full Project Directory Structure](#-full-project-directory-structure)
-- [🚀 Getting Started & Local Setup](#-getting-started--local-setup)
-- [🎯 Project Goals & Architectural Impact](#-project-goals--architectural-impact)
-- [👥 Meet the Developers](#-meet-the-developers)
-
----
-
 ## 📖 Executive Summary
 
 **Chefaa** bridges the gap between fragmented healthcare services by bringing all four primary stakeholders—**Patients**, **Doctors**, **Pharmacies**, and **Healthcare Facilities**—into a single cross-platform ecosystem.
